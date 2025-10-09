@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Application - PepperTree Townhomes</title>
+    <link rel="stylesheet" href="styles.css">    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- PDF.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+    
+    <style>
+        .pdf-container {
+            background: #f8f9fa;
+            padding: 2rem 0;
+            min-height: 100vh;
+        }
+        
+        .pdf-viewer-wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 2rem auto;
+            max-width: 1200px;
+        }
+        
+        .pdf-header {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .pdf-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+          .pdf-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+          .pdf-viewer {
+            width: 100%;
+            height: 800px;
+            border: none;
+            background: #f0f0f0;
+        }
+        
+        .pdf-canvas-container {
+            position: relative;
+            width: 100%;
+            height: 800px;
+            overflow: auto;
+            background: #525659;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+        
+        .pdf-canvas {
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            background: white;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .pdf-controls {
+            background: #333;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .pdf-controls button {
+            background: #4a7c59;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .pdf-controls button:hover {
+            background: #2c5530;
+        }
+        
+        .pdf-controls button:disabled {
+            background: #666;
+            cursor: not-allowed;
+        }
+        
+        .page-info {
+            color: white;
+            font-size: 14px;
+        }
+        
+        .zoom-controls {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }        .form-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 10;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .form-field {
+            position: absolute;
+            border: 2px solid #007bff;
+            background: rgba(0, 123, 255, 0.15);
+            pointer-events: all;
+            cursor: text;
+            box-sizing: border-box;
+        }
+        
+        .form-field:hover {
+            border-color: #0056b3;
+            background: rgba(0, 123, 255, 0.25);
+        }
+        
+        .form-field input,
+        .form-field textarea {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            font-size: 12px;
+            padding: 2px 4px;
+            outline: none;
+            color: #000;
+            font-weight: 500;
+        }
+          .loading-message {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+            font-size: 1.1rem;
+        }
+        
+        /* Popup Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: none;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #4a7c59;
+        }
+        
+        .modal-header h3 {
+            color: #2c5530;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover,
+        .close:focus {
+            color: #2c5530;
+            text-decoration: none;
+        }
+        
+        .instruction-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .instruction-list li {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-left: 4px solid #4a7c59;
+            border-radius: 4px;
+        }
+        
+        .instruction-list strong {
+            color: #2c5530;
+        }
+        
+        .pdf-actions {
+            padding: 2rem;
+            text-align: center;
+            background: #f8f9fa;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-pdf {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .btn-download {
+            background: #4a7c59;
+            color: white;
+        }
+        
+        .btn-download:hover {
+            background: #2c5530;
+            transform: translateY(-2px);
+        }
+        
+        .btn-email {
+            background: #007bff;
+            color: white;
+        }
+        
+        .btn-email:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        
+        .btn-print {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-print:hover {
+            background: #495057;
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .pdf-viewer {
+                height: 600px;
+            }
+            
+            .pdf-header h1 {
+                font-size: 2rem;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-pdf {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">PepperTree Townhomes</a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="floorplans.html">Floor Plans</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="neighborhood.html">Neighborhood</a></li>
+                <li><a href="available.html">Available Now</a></li>
+                <li><a href="rental-application.html" class="active">Apply Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="contact.html" class="btn btn-primary">Schedule Tour</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- PDF Container -->
+    <div class="pdf-container">
+        <div class="container">
+            <div class="pdf-viewer-wrapper">                <div class="pdf-header">
+                    <h1>Rental Application</h1>
+                    <p>Complete your application online or download to fill out</p>
+                    <div style="margin-top: 15px;">
+                        <button onclick="showInstructions()" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid white; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; margin-right: 10px;">
+                            ❓ How to Use This Form
+                        </button>
+                        <a href="rental-application-form.html" style="background: rgba(255,255,255,0.9); color: #2c5530; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; font-size: 14px; text-decoration: none; font-weight: 600;">
+                            📝 HTML Form Version
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- PDF Viewer -->
+                <div class="pdf-controls">
+                    <div>
+                        <button onclick="previousPage()" id="prevBtn">← Previous</button>
+                        <button onclick="nextPage()" id="nextBtn">Next →</button>
+                        <span class="page-info">
+                            Page <span id="pageNum">1</span> of <span id="pageCount">-</span>
+                        </span>
+                    </div>
+                    <div class="zoom-controls">
+                        <button onclick="zoomOut()">-</button>
+                        <span id="zoomLevel">100%</span>
+                        <button onclick="zoomIn()">+</button>
+                        <button onclick="resetZoom()">Reset</button>
+                    </div>
+                    <div>
+                        <button onclick="toggleFormMode()" id="formModeBtn">📝 Form Mode</button>
+                        <button onclick="downloadFilledPDF()">💾 Save PDF</button>
+                    </div>
+                </div>
+                
+                <div class="pdf-canvas-container" id="pdfContainer">
+                    <div class="loading-message" id="loadingMsg">
+                        � Loading PDF form... Please wait.
+                    </div>
+                    <canvas id="pdfCanvas" class="pdf-canvas" style="display: none;"></canvas>
+                    <div class="form-overlay" id="formOverlay"></div>
+                </div>
+                
+                <div class="pdf-actions">                        <div class="btn-group">
+                            <a href="rental-application-form.html" 
+                               class="btn-pdf btn-download">
+                                📝 HTML Form Version
+                            </a>
+                            <a href="Golden_Hills_Rental_Application_Fillable.pdf" 
+                               class="btn-pdf btn-download" 
+                               download="Golden_Hills_Rental_Application.pdf">
+                                📥 Download PDF
+                            </a>
+                            <button class="btn-pdf btn-email" onclick="emailApplication()">
+                                📧 Email Application
+                            </button>
+                            <button class="btn-pdf btn-print" onclick="printApplication()">
+                                🖨️ Print Application
+                            </button>
+                        </div>
+                    <p style="margin-top: 1.5rem; color: #666; font-size: 0.9rem;">
+                        Questions? <a href="contact.html" style="color: #4a7c59;">Contact us</a> for assistance with your application.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>    <script src="script.js"></script>
+    <script>
+        // PDF.js configuration
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+        
+        let pdfDoc = null;
+        let pageNum = 1;
+        let pageCount = 0;
+        let scale = 1.2;
+        let canvas = document.getElementById('pdfCanvas');
+        let ctx = canvas.getContext('2d');
+        let formFields = {};
+        let formMode = false;
+        
+        // Load PDF when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPDF();
+        });
+        
+        async function loadPDF() {
+            try {
+                const loadingTask = pdfjsLib.getDocument('Golden_Hills_Rental_Application_Fillable.pdf');
+                pdfDoc = await loadingTask.promise;
+                pageCount = pdfDoc.numPages;
+                document.getElementById('pageCount').textContent = pageCount;
+                document.getElementById('loadingMsg').style.display = 'none';
+                canvas.style.display = 'block';
+                renderPage(pageNum);
+                
+                // Extract form fields
+                await extractFormFields();
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                document.getElementById('loadingMsg').innerHTML = `
+                    <div style="color: #dc3545;">
+                        <h4>PDF Loading Error</h4>
+                        <p>Unable to load the PDF form. Please try one of these alternatives:</p>
+                        <div style="margin-top: 1rem;">
+                            <a href="Golden_Hills_Rental_Application_Fillable.pdf" target="_blank" 
+                               style="background: #4a7c59; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; margin-right: 10px;">
+                                🔗 Open PDF in New Tab
+                            </a>
+                            <a href="Golden_Hills_Rental_Application_Fillable.pdf" download
+                               style="background: #007bff; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px;">
+                                📥 Download PDF
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+          function renderPage(num) {
+            if (!pdfDoc) return;
+            
+            pdfDoc.getPage(num).then(function(page) {
+                const viewport = page.getViewport({ scale: scale });
+                
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                
+                const renderContext = {
+                    canvasContext: ctx,
+                    viewport: viewport
+                };
+                
+                page.render(renderContext).promise.then(function() {
+                    // Update page number display
+                    document.getElementById('pageNum').textContent = num;
+                    
+                    // Update navigation buttons
+                    document.getElementById('prevBtn').disabled = (num <= 1);
+                    document.getElementById('nextBtn').disabled = (num >= pageCount);
+                    
+                    // Update form overlay for current page
+                    setTimeout(() => {
+                        updateFormOverlay(num);
+                    }, 100); // Small delay to ensure canvas is fully rendered
+                });
+            });
+        }async function extractFormFields() {
+            try {
+                // Try to extract actual form fields from PDF
+                for (let pageIndex = 1; pageIndex <= pageCount; pageIndex++) {
+                    const page = await pdfDoc.getPage(pageIndex);
+                    const annotations = await page.getAnnotations();
+                    
+                    annotations.forEach((annotation, index) => {
+                        if (annotation.subtype === 'Widget' && annotation.fieldType) {
+                            const fieldName = annotation.fieldName || `field_${pageIndex}_${index}`;
+                            formFields[fieldName] = {
+                                name: fieldName,
+                                page: pageIndex,
+                                rect: annotation.rect,
+                                type: annotation.fieldType === 'Tx' ? 'text' : 'text',
+                                annotation: annotation
+                            };
+                        }
+                    });
+                }
+                
+                console.log('Extracted form fields:', Object.keys(formFields).length);
+                
+            } catch (error) {
+                console.error('Error extracting form fields:', error);
+                formFields = {}; // Reset to empty so we use manual positioning
+            }
+        }
+          function updateFormOverlay(pageNum) {
+            const overlay = document.getElementById('formOverlay');
+            overlay.innerHTML = '';
+            
+            if (!formMode) {
+                overlay.style.display = 'none';
+                return;
+            }
+            
+            overlay.style.display = 'block';
+            
+            // Get the canvas position and size
+            const canvasRect = canvas.getBoundingClientRect();
+            const containerRect = document.getElementById('pdfContainer').getBoundingClientRect();
+            
+            // Position overlay to match canvas exactly
+            overlay.style.left = (canvasRect.left - containerRect.left) + 'px';
+            overlay.style.top = (canvasRect.top - containerRect.top) + 'px';
+            overlay.style.width = canvas.width + 'px';
+            overlay.style.height = canvas.height + 'px';
+            
+            // Add form fields for current page based on actual PDF coordinates
+            addFormFieldsForPage(pageNum, overlay);
+        }
+        
+        function addFormFieldsForPage(pageNum, overlay) {
+            // Define form fields based on the actual PDF layout
+            const pageFields = {
+                1: [
+                    // DATE OF APPLICATION (top right)
+                    { name: 'Date Month', x: 590, y: 50, width: 40, height: 20, type: 'text' },
+                    { name: 'Date Day', x: 635, y: 50, width: 40, height: 20, type: 'text' },
+                    { name: 'Date Year', x: 680, y: 50, width: 60, height: 20, type: 'text' },
+                    
+                    // PERSONAL INFORMATION
+                    { name: 'First Name', x: 275, y: 115, width: 120, height: 18, type: 'text' },
+                    { name: 'Middle Name', x: 400, y: 115, width: 80, height: 18, type: 'text' },
+                    { name: 'Last Name', x: 490, y: 115, width: 120, height: 18, type: 'text' },
+                    
+                    { name: 'Date of Birth', x: 250, y: 140, width: 100, height: 18, type: 'date' },
+                    { name: 'Drivers License', x: 455, y: 140, width: 100, height: 18, type: 'text' },
+                    { name: 'State', x: 585, y: 140, width: 60, height: 18, type: 'text' },
+                    
+                    { name: 'Social Security', x: 290, y: 165, width: 100, height: 18, type: 'text' },
+                    { name: 'Cell Phone', x: 520, y: 165, width: 100, height: 18, type: 'tel' },
+                    
+                    { name: 'Home Phone', x: 520, y: 190, width: 100, height: 18, type: 'tel' },
+                    { name: 'Email', x: 525, y: 215, width: 150, height: 18, type: 'email' },
+                    
+                    // ADDRESS SECTION
+                    { name: 'Present Address', x: 290, y: 265, width: 200, height: 18, type: 'text' },
+                    { name: 'Dates of Residence', x: 315, y: 290, width: 100, height: 18, type: 'text' },
+                    { name: 'To Date', x: 420, y: 290, width: 80, height: 18, type: 'text' },
+                    { name: 'Monthly Payment', x: 575, y: 290, width: 80, height: 18, type: 'text' },
+                    
+                    { name: 'Rented/Owned', x: 255, y: 315, width: 100, height: 18, type: 'text' },
+                    { name: 'Management Name', x: 545, y: 315, width: 120, height: 18, type: 'text' },
+                    { name: 'Phone', x: 670, y: 315, width: 80, height: 18, type: 'tel' },
+                    
+                    // PREVIOUS ADDRESS
+                    { name: 'Previous Dates of Residence', x: 315, y: 365, width: 100, height: 18, type: 'text' },
+                    { name: 'Previous To Date', x: 420, y: 365, width: 80, height: 18, type: 'text' },
+                    { name: 'Previous Monthly Payment', x: 575, y: 365, width: 80, height: 18, type: 'text' },
+                    
+                    { name: 'Previous Rented/Owned', x: 255, y: 390, width: 100, height: 18, type: 'text' },
+                    { name: 'Previous Management Name', x: 545, y: 390, width: 120, height: 18, type: 'text' },
+                    { name: 'Previous Phone', x: 670, y: 390, width: 80, height: 18, type: 'tel' },
+                    
+                    // EMPLOYMENT
+                    { name: 'Current Employer', x: 375, y: 445, width: 150, height: 18, type: 'text' },
+                    { name: 'Position', x: 595, y: 445, width: 120, height: 18, type: 'text' }
+                ]
+            };
+            
+            const fields = pageFields[pageNum] || [];
+            
+            fields.forEach(field => {
+                createFormField(field, overlay);
+            });
+        }
+        
+        function createFormField(field, overlay) {
+            const fieldElement = document.createElement('div');
+            fieldElement.className = 'form-field';
+            fieldElement.title = field.name;
+            
+            // Convert PDF coordinates to canvas coordinates
+            const pdfWidth = 792; // Standard PDF width points
+            const pdfHeight = 612; // Standard PDF height points
+            
+            // Calculate scale factors
+            const scaleX = canvas.width / pdfWidth;
+            const scaleY = canvas.height / pdfHeight;
+            
+            // Position the field
+            const x = field.x * scaleX;
+            const y = field.y * scaleY;
+            const width = field.width * scaleX;
+            const height = field.height * scaleY;
+            
+            fieldElement.style.left = x + 'px';
+            fieldElement.style.top = y + 'px';
+            fieldElement.style.width = width + 'px';
+            fieldElement.style.height = height + 'px';
+            
+            const input = document.createElement('input');
+            input.type = field.type || 'text';
+            input.name = field.name;
+            input.placeholder = field.name;
+            input.style.width = '100%';
+            input.style.height = '100%';
+            input.style.border = 'none';
+            input.style.background = 'transparent';
+            input.style.fontSize = Math.max(8, height * 0.7) + 'px';
+            input.style.padding = '1px 3px';
+            input.style.outline = 'none';
+            input.style.color = '#000';
+            input.style.fontWeight = '500';
+            
+            // Store field data
+            input.addEventListener('input', function() {
+                if (!formFields[field.name]) formFields[field.name] = {};
+                formFields[field.name].value = this.value;
+            });
+            
+            // Restore saved value if any
+            if (formFields[field.name] && formFields[field.name].value) {
+                input.value = formFields[field.name].value;
+            }
+            
+            fieldElement.appendChild(input);
+            overlay.appendChild(fieldElement);
+        }
+        
+        function toggleFormMode() {
+            formMode = !formMode;
+            const btn = document.getElementById('formModeBtn');
+            
+            if (formMode) {
+                btn.textContent = '👁️ View Mode';
+                btn.style.background = '#dc3545';
+            } else {
+                btn.textContent = '📝 Form Mode';
+                btn.style.background = '#4a7c59';
+            }
+            
+            updateFormOverlay(pageNum);
+        }
+        
+        function previousPage() {
+            if (pageNum <= 1) return;
+            pageNum--;
+            renderPage(pageNum);
+        }
+        
+        function nextPage() {
+            if (pageNum >= pageCount) return;
+            pageNum++;
+            renderPage(pageNum);
+        }
+        
+        function zoomIn() {
+            scale += 0.2;
+            document.getElementById('zoomLevel').textContent = Math.round(scale * 100) + '%';
+            renderPage(pageNum);
+        }
+        
+        function zoomOut() {
+            if (scale > 0.4) {
+                scale -= 0.2;
+                document.getElementById('zoomLevel').textContent = Math.round(scale * 100) + '%';
+                renderPage(pageNum);
+            }
+        }
+        
+        function resetZoom() {
+            scale = 1.2;
+            document.getElementById('zoomLevel').textContent = '100%';
+            renderPage(pageNum);
+        }
+        
+        function downloadFilledPDF() {
+            // Create form data summary
+            const formData = {};
+            Object.keys(formFields).forEach(key => {
+                if (formFields[key].value) {
+                    formData[key] = formFields[key].value;
+                }
+            });
+            
+            if (Object.keys(formData).length === 0) {
+                alert('Please fill out some form fields before saving.');
+                return;
+            }
+            
+            // Create a text file with form data
+            const dataStr = JSON.stringify(formData, null, 2);
+            const dataBlob = new Blob([`RENTAL APPLICATION DATA\n\nFilled out on: ${new Date().toLocaleDateString()}\n\nForm Data:\n${JSON.stringify(formData, null, 2)}\n\nNote: Please also download the original PDF form and fill it out completely.`], {type: 'text/plain'});
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'rental_application_data.txt';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            // Also prompt to download original PDF
+            setTimeout(() => {
+                if (confirm('Would you like to also download the original PDF form to complete offline?')) {
+                    const pdfLink = document.createElement('a');
+                    pdfLink.href = 'Golden_Hills_Rental_Application_Fillable.pdf';
+                    pdfLink.download = 'Golden_Hills_Rental_Application.pdf';
+                    document.body.appendChild(pdfLink);
+                    pdfLink.click();
+                    document.body.removeChild(pdfLink);
+                }
+            }, 500);
+        }
+        
+        function openPDFInNewTab() {
+            window.open('Golden_Hills_Rental_Application_Fillable.pdf', '_blank');
+        }
+
+        function emailApplication() {
+            const subject = encodeURIComponent('Rental Application - PepperTree Townhomes');
+            const body = encodeURIComponent(`Hello,
+
+I would like to submit my completed rental application for PepperTree Townhomes.
+
+Please find my completed application attached to this email.
+
+Best regards`);
+            
+            window.location.href = `mailto:?subject=${subject}&body=${body}`;
+        }        function printApplication() {
+            window.print();
+        }
+        
+        function showInstructions() {
+            document.getElementById('instructionModal').style.display = 'block';
+        }
+        
+        function closeInstructions() {
+            document.getElementById('instructionModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('instructionModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+
+    <!-- Instructions Modal -->
+    <div id="instructionModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>How to Complete Your Application</h3>
+                <span class="close" onclick="closeInstructions()">&times;</span>
+            </div>
+            <ul class="instruction-list">
+                <li><strong>📝 Interactive Form:</strong> Click "Form Mode" to enable inline form filling directly on the PDF</li>
+                <li><strong>⬅️➡️ Navigation:</strong> Use Previous/Next buttons to navigate through pages</li>
+                <li><strong>🔍 Zoom:</strong> Adjust zoom level for better visibility of form fields</li>
+                <li><strong>💾 Save Progress:</strong> Click "Save PDF" to download your form data</li>
+                <li><strong>📥 Alternative:</strong> Download the PDF to fill out with any PDF reader</li>
+                <li><strong>📧 Submit:</strong> Email the completed form to us or bring it to our office</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

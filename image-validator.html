@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Link Validator - PepperTree</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .image-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        .image-item img {
+            max-width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .image-name {
+            font-size: 12px;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+        .missing {
+            background: #ffe6e6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🖼️ Image Link Validator</h1>
+        <p>This page validates all image references used in the PepperTree website.</p>
+        
+        <div id="summary"></div>
+        
+        <h2>Referenced Images</h2>
+        <div class="image-grid" id="imageGrid"></div>
+        
+        <h2>Additional Images in Directory</h2>
+        <div class="image-grid" id="additionalImages"></div>
+    </div>
+
+    <script>
+        // List of all images referenced in HTML files
+        const referencedImages = [
+            'images/720-Outside.jpg',
+            'images/730_750_Outside.jpg',
+            'images/131_Outside_Bldg.jpg',
+            'images/unit-1-exterior.jpg',
+            'images/unit-2-living.jpg',
+            'images/unit-3-kitchen.jpg',
+            'images/unit-exterior.jpg',
+            'images/unit-living.jpg',
+            'images/unit-kitchen.jpg',
+            'images/unit-bedroom.jpg',
+            'images/720C_LivingRoom.jpg',
+            'images/720C_LivingRoom2.jpg',
+            'images/720C_LivingRm.jpg',
+            'images/720C_Kitchen.jpg',
+            'images/720C_Bedroom.jpg',
+            'images/720C_BathMaster.jpg',
+            'images/720C_BathMaster2.jpg',
+            'images/720C_Bath_Downstairs.jpg',
+            'images/720C_BathDownstairs2.jpg',
+            'images/720C_LeadUpstairs.jpg',
+            'images/720C_Stairs.jpg',
+            'images/720C_PatioAccess.jpg',
+            'images/730_750_Outside2.jpg',
+            'images/730_Outside.jpg',
+            'images/730_OutsideBldg.jpg',
+            'images/neighborhood-college.jpg',
+            'images/neighborhood-ranch.jpg',
+            'images/neighborhood-museum.jpg',
+            'images/neighborhood-balloons.jpg'
+        ];
+
+        // Additional images that exist but may not be referenced
+        const additionalImages = [
+            'images/710_Outside.jpg',
+            'images/710_Outside_Bldg.jpg',
+            'images/730_Outside_Corner.jpg',
+            'images/760.jpg',
+            'images/760_Outside.jpg',
+            'images/770_Outside.jpg',
+            'images/neighborhood-lizard.jpg',
+            'images/neighborhood-valley.jpg',
+            'images/for_rent_banner.jpg',
+            'images/peppertree_hires_banner.png',
+            'images/IMG_3858_banner_hires.png',
+            'images/PEPPERTREE.jpg',
+            'images/ptree_image.png'
+        ];
+
+        let loadedCount = 0;
+        let errorCount = 0;
+
+        function checkImage(src, isReferenced = true) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = () => {
+                    loadedCount++;
+                    resolve({ src, status: 'success', isReferenced });
+                };
+                img.onerror = () => {
+                    errorCount++;
+                    resolve({ src, status: 'error', isReferenced });
+                };
+                img.src = src;
+            });
+        }
+
+        function createImageElement(result) {
+            const div = document.createElement('div');
+            div.className = `image-item ${result.status === 'error' ? 'missing' : ''}`;
+            
+            if (result.status === 'success') {
+                div.innerHTML = `
+                    <img src="${result.src}" alt="${result.src}" loading="lazy">
+                    <div class="image-name">${result.src.split('/').pop()}</div>
+                    <div style="color: green; font-size: 12px;">✅ Loaded</div>
+                `;
+            } else {
+                div.innerHTML = `
+                    <div style="background: #f0f0f0; height: 150px; display: flex; align-items: center; justify-content: center; border-radius: 4px;">
+                        <span style="color: #666;">❌ Missing</span>
+                    </div>
+                    <div class="image-name">${result.src.split('/').pop()}</div>
+                    <div style="color: red; font-size: 12px;">❌ Not Found</div>
+                `;
+            }
+            
+            return div;
+        }
+
+        async function validateImages() {
+            const summaryDiv = document.getElementById('summary');
+            const imageGrid = document.getElementById('imageGrid');
+            const additionalGrid = document.getElementById('additionalImages');
+
+            summaryDiv.innerHTML = '<div class="status">🔄 Checking images...</div>';
+
+            // Check referenced images
+            const referencedResults = await Promise.all(
+                referencedImages.map(src => checkImage(src, true))
+            );
+
+            // Check additional images
+            const additionalResults = await Promise.all(
+                additionalImages.map(src => checkImage(src, false))
+            );
+
+            // Display results
+            referencedResults.forEach(result => {
+                imageGrid.appendChild(createImageElement(result));
+            });
+
+            additionalResults.forEach(result => {
+                additionalGrid.appendChild(createImageElement(result));
+            });
+
+            // Update summary
+            const totalChecked = referencedImages.length + additionalImages.length;
+            const successRate = ((loadedCount / totalChecked) * 100).toFixed(1);
+            
+            let summaryClass = loadedCount === totalChecked ? 'success' : 'error';
+            let summaryText = `
+                <strong>Validation Complete:</strong><br>
+                ✅ ${loadedCount} images loaded successfully<br>
+                ❌ ${errorCount} images missing<br>
+                📊 Success rate: ${successRate}%<br>
+                📁 Referenced images: ${referencedImages.length}<br>
+                📁 Additional images: ${additionalImages.length}
+            `;
+
+            if (errorCount === 0) {
+                summaryText += '<br><br>🎉 <strong>All images are ready for hosting!</strong>';
+            } else {
+                summaryText += '<br><br>⚠️ <strong>Fix missing images before hosting.</strong>';
+            }
+
+            summaryDiv.innerHTML = `<div class="status ${summaryClass}">${summaryText}</div>`;
+        }
+
+        // Start validation when page loads
+        window.addEventListener('load', validateImages);
+    </script>
+</body>
+</html>

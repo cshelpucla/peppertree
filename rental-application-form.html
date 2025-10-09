@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Rental Application - PepperTree Townhomes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .form-container {
+            background: #f8f9fa;
+            padding: 2rem 0;
+            min-height: 100vh;
+        }
+        
+        .form-wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            margin: 2rem auto;
+            max-width: 1000px;
+        }
+        
+        .form-header {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        .form-header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+        
+        .form-header .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin: 0;
+        }
+        
+        .form-content {
+            padding: 2rem;
+        }
+        
+        .form-section {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #4a7c59;
+        }
+        
+        .form-section h3 {
+            color: #2c5530;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            font-size: 1.3rem;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .form-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        .form-group.small {
+            flex: 0 0 120px;
+        }
+        
+        .form-group.medium {
+            flex: 0 0 200px;
+        }
+        
+        .form-group.large {
+            flex: 2;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e9ecef;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #4a7c59;
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        
+        .checkbox-group input[type="checkbox"],
+        .checkbox-group input[type="radio"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+        
+        .date-inputs {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        
+        .date-inputs input {
+            width: 60px;
+            text-align: center;
+        }
+        
+        .form-actions {
+            background: #f8f9fa;
+            padding: 2rem;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        .btn-form {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .btn-primary {
+            background: #4a7c59;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #2c5530;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #495057;
+            transform: translateY(-2px);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #4a7c59;
+            border: 2px solid #4a7c59;
+        }
+        
+        .btn-outline:hover {
+            background: #4a7c59;
+            color: white;
+        }
+        
+        .required {
+            color: #dc3545;
+        }
+        
+        .form-note {
+            background: #e8f5e8;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #4a7c59;
+            font-size: 0.9rem;
+            color: #2c5530;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+            }
+            
+            .form-group {
+                min-width: auto;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn-form {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">PepperTree Townhomes</a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="floorplans.html">Floor Plans</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="neighborhood.html">Neighborhood</a></li>
+                <li><a href="available.html">Available Now</a></li>
+                <li><a href="rental-application.html">Apply Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="contact.html" class="btn btn-primary">Schedule Tour</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Form Container -->
+    <div class="form-container">
+        <div class="container">
+            <div class="form-wrapper">
+                <div class="form-header">
+                    <h1>Rental Application</h1>
+                    <p class="subtitle">Golden Hills Real Estate - PepperTree Townhomes</p>
+                </div>
+                
+                <div class="form-content">
+                    <div class="form-note">
+                        <strong>📋 Important:</strong> Please read through all application documents thoroughly and completely before signing and submitting your rental application. All applicants/lease holders must be 18 years or older.
+                    </div>
+                    
+                    <form id="rentalApplicationForm" onsubmit="handleFormSubmission(event)">
+                        <!-- Date of Application -->
+                        <div class="form-section">
+                            <h3>Application Date</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dateOfApplication">Date of Application <span class="required">*</span></label>
+                                    <input type="date" id="dateOfApplication" name="dateOfApplication" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personal Information -->
+                        <div class="form-section">
+                            <h3>Personal Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="firstName">First Name <span class="required">*</span></label>
+                                    <input type="text" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="middleName">Middle Name</label>
+                                    <input type="text" id="middleName" name="middleName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last Name <span class="required">*</span></label>
+                                    <input type="text" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dateOfBirth">Date of Birth <span class="required">*</span></label>
+                                    <input type="date" id="dateOfBirth" name="dateOfBirth" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="driversLicense">Driver's License # <span class="required">*</span></label>
+                                    <input type="text" id="driversLicense" name="driversLicense" required>
+                                </div>
+                                <div class="form-group small">
+                                    <label for="licenseState">State</label>
+                                    <input type="text" id="licenseState" name="licenseState" maxlength="2">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="socialSecurity">Social Security # <span class="required">*</span></label>
+                                    <input type="text" id="socialSecurity" name="socialSecurity" placeholder="XXX-XX-XXXX" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cellPhone">Cell Phone # <span class="required">*</span></label>
+                                    <input type="tel" id="cellPhone" name="cellPhone" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Gender</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="radio" name="gender" value="male"> Male</label>
+                                        <label><input type="radio" name="gender" value="female"> Female</label>
+                                        <label><input type="radio" name="gender" value="other"> Other</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="homePhone">Home Phone #</label>
+                                    <input type="tel" id="homePhone" name="homePhone">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Marital Status</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="radio" name="maritalStatus" value="single"> Single</label>
+                                        <label><input type="radio" name="maritalStatus" value="married"> Married</label>
+                                        <label><input type="radio" name="maritalStatus" value="divorced"> Divorced</label>
+                                        <label><input type="radio" name="maritalStatus" value="widowed"> Widowed</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email Address <span class="required">*</span></label>
+                                    <input type="email" id="email" name="email" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Address Information -->
+                        <div class="form-section">
+                            <h3>Address Information</h3>
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label for="presentAddress">Present Address <span class="required">*</span></label>
+                                    <input type="text" id="presentAddress" name="presentAddress" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="datesOfResidence">Dates of Residence (From)</label>
+                                    <input type="date" id="datesOfResidence" name="datesOfResidence">
+                                </div>
+                                <div class="form-group">
+                                    <label for="residenceTo">To</label>
+                                    <input type="date" id="residenceTo" name="residenceTo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="monthlyPayment">Monthly Payment</label>
+                                    <input type="number" id="monthlyPayment" name="monthlyPayment" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Rented/Owned?</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="radio" name="rentedOwned" value="rented"> Rented</label>
+                                        <label><input type="radio" name="rentedOwned" value="owned"> Owned</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="managementName">Management Name</label>
+                                    <input type="text" id="managementName" name="managementName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="managementPhone">Phone</label>
+                                    <input type="tel" id="managementPhone" name="managementPhone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Previous Address -->
+                        <div class="form-section">
+                            <h3>Previous Address</h3>
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label for="previousAddress">Previous Address</label>
+                                    <input type="text" id="previousAddress" name="previousAddress">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="prevDatesOfResidence">Dates of Residence (From)</label>
+                                    <input type="date" id="prevDatesOfResidence" name="prevDatesOfResidence">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prevResidenceTo">To</label>
+                                    <input type="date" id="prevResidenceTo" name="prevResidenceTo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prevMonthlyPayment">Monthly Payment</label>
+                                    <input type="number" id="prevMonthlyPayment" name="prevMonthlyPayment" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Rented/Owned?</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="radio" name="prevRentedOwned" value="rented"> Rented</label>
+                                        <label><input type="radio" name="prevRentedOwned" value="owned"> Owned</label>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prevManagementName">Management Name</label>
+                                    <input type="text" id="prevManagementName" name="prevManagementName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="prevManagementPhone">Phone</label>
+                                    <input type="tel" id="prevManagementPhone" name="prevManagementPhone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Employment -->
+                        <div class="form-section">
+                            <h3>Employment Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="currentEmployer">Current Employer <span class="required">*</span></label>
+                                    <input type="text" id="currentEmployer" name="currentEmployer" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="position">Position <span class="required">*</span></label>
+                                    <input type="text" id="position" name="position" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="employmentStartDate">Employment Start Date</label>
+                                    <input type="date" id="employmentStartDate" name="employmentStartDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="monthlyIncome">Monthly Income</label>
+                                    <input type="number" id="monthlyIncome" name="monthlyIncome" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="supervisorName">Supervisor Name</label>
+                                    <input type="text" id="supervisorName" name="supervisorName">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label for="employerAddress">Employer Address</label>
+                                    <input type="text" id="employerAddress" name="employerAddress">
+                                </div>
+                                <div class="form-group">
+                                    <label for="employerPhone">Phone</label>
+                                    <input type="tel" id="employerPhone" name="employerPhone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Emergency Contact -->
+                        <div class="form-section">
+                            <h3>Emergency Contact</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="emergencyName">Full Name <span class="required">*</span></label>
+                                    <input type="text" id="emergencyName" name="emergencyName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="emergencyRelationship">Relationship</label>
+                                    <input type="text" id="emergencyRelationship" name="emergencyRelationship">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="emergencyPhone">Phone Number <span class="required">*</span></label>
+                                    <input type="tel" id="emergencyPhone" name="emergencyPhone" required>
+                                </div>
+                                <div class="form-group large">
+                                    <label for="emergencyAddress">Address</label>
+                                    <input type="text" id="emergencyAddress" name="emergencyAddress">
+                                </div>
+                            </div>
+                        </div>                        <!-- Additional Information -->
+                        <div class="form-section">
+                            <h3>Additional Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="moveInDate">Desired Move-in Date</label>
+                                    <input type="date" id="moveInDate" name="moveInDate">
+                                </div>
+                                <div class="form-group">
+                                    <label for="leaseLength">Preferred Lease Length</label>
+                                    <select id="leaseLength" name="leaseLength">
+                                        <option value="">Select...</option>
+                                        <option value="6">6 months</option>
+                                        <option value="12">12 months</option>
+                                        <option value="18">18 months</option>
+                                        <option value="24">24 months</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label for="specialRequests">Special Requests or Comments</label>
+                                    <textarea id="specialRequests" name="specialRequests" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Previous Employment -->
+                        <div class="form-section">
+                            <h3>Previous Employment</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="previousEmployer">Previous Employer</label>
+                                    <input type="text" id="previousEmployer" name="previousEmployer">
+                                </div>
+                                <div class="form-group">
+                                    <label for="previousPosition">Position</label>
+                                    <input type="text" id="previousPosition" name="previousPosition">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="previousEmploymentFrom">Employment From</label>
+                                    <input type="date" id="previousEmploymentFrom" name="previousEmploymentFrom">
+                                </div>
+                                <div class="form-group">
+                                    <label for="previousEmploymentTo">To</label>
+                                    <input type="date" id="previousEmploymentTo" name="previousEmploymentTo">
+                                </div>
+                                <div class="form-group">
+                                    <label for="previousMonthlyIncome">Monthly Income</label>
+                                    <input type="number" id="previousMonthlyIncome" name="previousMonthlyIncome" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label for="previousEmployerAddress">Employer Address</label>
+                                    <input type="text" id="previousEmployerAddress" name="previousEmployerAddress">
+                                </div>
+                                <div class="form-group">
+                                    <label for="previousEmployerPhone">Phone</label>
+                                    <input type="tel" id="previousEmployerPhone" name="previousEmployerPhone">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label for="reasonForLeaving">Reason for Leaving</label>
+                                    <input type="text" id="reasonForLeaving" name="reasonForLeaving">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Other Income -->
+                        <div class="form-section">
+                            <h3>Other Income</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="otherIncomeSource">Source</label>
+                                    <input type="text" id="otherIncomeSource" name="otherIncomeSource" placeholder="e.g., Social Security, Pension, etc.">
+                                </div>
+                                <div class="form-group">
+                                    <label for="otherIncomeAmount">Monthly Amount</label>
+                                    <input type="number" id="otherIncomeAmount" name="otherIncomeAmount" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bank References -->
+                        <div class="form-section">
+                            <h3>Bank References</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="bankName">Bank Name <span class="required">*</span></label>
+                                    <input type="text" id="bankName" name="bankName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="bankBranch">Branch</label>
+                                    <input type="text" id="bankBranch" name="bankBranch">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="checkingAccount">Checking Account #</label>
+                                    <input type="text" id="checkingAccount" name="checkingAccount">
+                                </div>
+                                <div class="form-group">
+                                    <label for="savingsAccount">Savings Account #</label>
+                                    <input type="text" id="savingsAccount" name="savingsAccount">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label for="bankAddress">Bank Address</label>
+                                    <input type="text" id="bankAddress" name="bankAddress">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bankPhone">Phone</label>
+                                    <input type="tel" id="bankPhone" name="bankPhone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit References -->
+                        <div class="form-section">
+                            <h3>Credit References</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="creditCard1">Credit Card/Company 1</label>
+                                    <input type="text" id="creditCard1" name="creditCard1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="creditCard1Balance">Balance</label>
+                                    <input type="number" id="creditCard1Balance" name="creditCard1Balance" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="creditCard1Payment">Monthly Payment</label>
+                                    <input type="number" id="creditCard1Payment" name="creditCard1Payment" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="creditCard2">Credit Card/Company 2</label>
+                                    <input type="text" id="creditCard2" name="creditCard2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="creditCard2Balance">Balance</label>
+                                    <input type="number" id="creditCard2Balance" name="creditCard2Balance" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="creditCard2Payment">Monthly Payment</label>
+                                    <input type="number" id="creditCard2Payment" name="creditCard2Payment" step="0.01">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="autoLoan">Auto Loan Company</label>
+                                    <input type="text" id="autoLoan" name="autoLoan">
+                                </div>
+                                <div class="form-group">
+                                    <label for="autoLoanBalance">Balance</label>
+                                    <input type="number" id="autoLoanBalance" name="autoLoanBalance" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="autoLoanPayment">Monthly Payment</label>
+                                    <input type="number" id="autoLoanPayment" name="autoLoanPayment" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Vehicle Information -->
+                        <div class="form-section">
+                            <h3>Vehicle Information</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="vehicleYear">Year</label>
+                                    <input type="number" id="vehicleYear" name="vehicleYear" min="1900" max="2030">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicleMake">Make</label>
+                                    <input type="text" id="vehicleMake" name="vehicleMake">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicleModel">Model</label>
+                                    <input type="text" id="vehicleModel" name="vehicleModel">
+                                </div>
+                                <div class="form-group">
+                                    <label for="vehicleColor">Color</label>
+                                    <input type="text" id="vehicleColor" name="vehicleColor">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="licensePlate">License Plate #</label>
+                                    <input type="text" id="licensePlate" name="licensePlate">
+                                </div>
+                                <div class="form-group small">
+                                    <label for="plateState">State</label>
+                                    <input type="text" id="plateState" name="plateState" maxlength="2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pets/Animals -->
+                        <div class="form-section">
+                            <h3>Pets/Animals</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label>Do you have any pets?</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="radio" name="hasPets" value="yes"> Yes</label>
+                                        <label><input type="radio" name="hasPets" value="no"> No</label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="petType1">Pet Type 1</label>
+                                    <input type="text" id="petType1" name="petType1" placeholder="e.g., Dog, Cat">
+                                </div>
+                                <div class="form-group">
+                                    <label for="petBreed1">Breed</label>
+                                    <input type="text" id="petBreed1" name="petBreed1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="petWeight1">Weight</label>
+                                    <input type="text" id="petWeight1" name="petWeight1">
+                                </div>
+                                <div class="form-group">
+                                    <label for="petAge1">Age</label>
+                                    <input type="text" id="petAge1" name="petAge1">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="petType2">Pet Type 2</label>
+                                    <input type="text" id="petType2" name="petType2" placeholder="e.g., Dog, Cat">
+                                </div>
+                                <div class="form-group">
+                                    <label for="petBreed2">Breed</label>
+                                    <input type="text" id="petBreed2" name="petBreed2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="petWeight2">Weight</label>
+                                    <input type="text" id="petWeight2" name="petWeight2">
+                                </div>
+                                <div class="form-group">
+                                    <label for="petAge2">Age</label>
+                                    <input type="text" id="petAge2" name="petAge2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Personal References -->
+                        <div class="form-section">
+                            <h3>Personal References</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reference1Name">Reference 1 - Full Name <span class="required">*</span></label>
+                                    <input type="text" id="reference1Name" name="reference1Name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="reference1Relationship">Relationship</label>
+                                    <input type="text" id="reference1Relationship" name="reference1Relationship">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reference1Phone">Phone Number</label>
+                                    <input type="tel" id="reference1Phone" name="reference1Phone">
+                                </div>
+                                <div class="form-group large">
+                                    <label for="reference1Address">Address</label>
+                                    <input type="text" id="reference1Address" name="reference1Address">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reference2Name">Reference 2 - Full Name</label>
+                                    <input type="text" id="reference2Name" name="reference2Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="reference2Relationship">Relationship</label>
+                                    <input type="text" id="reference2Relationship" name="reference2Relationship">
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="reference2Phone">Phone Number</label>
+                                    <input type="tel" id="reference2Phone" name="reference2Phone">
+                                </div>
+                                <div class="form-group large">
+                                    <label for="reference2Address">Address</label>
+                                    <input type="text" id="reference2Address" name="reference2Address">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Financial Information Summary -->
+                        <div class="form-section">
+                            <h3>Financial Summary</h3>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="totalMonthlyIncome">Total Monthly Income</label>
+                                    <input type="number" id="totalMonthlyIncome" name="totalMonthlyIncome" step="0.01">
+                                </div>
+                                <div class="form-group">
+                                    <label for="totalMonthlyExpenses">Total Monthly Expenses</label>
+                                    <input type="number" id="totalMonthlyExpenses" name="totalMonthlyExpenses" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Legal Questions -->
+                        <div class="form-section">
+                            <h3>Legal Information</h3>
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label>Have you ever been evicted or asked to move out?</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="radio" name="evictionHistory" value="yes"> Yes</label>
+                                        <label><input type="radio" name="evictionHistory" value="no"> No</label>
+                                    </div>
+                                    <div style="margin-top: 10px;">
+                                        <label for="evictionDetails">If yes, please explain:</label>
+                                        <textarea id="evictionDetails" name="evictionDetails" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label>Have you ever filed for bankruptcy?</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="radio" name="bankruptcyHistory" value="yes"> Yes</label>
+                                        <label><input type="radio" name="bankruptcyHistory" value="no"> No</label>
+                                    </div>
+                                    <div style="margin-top: 10px;">
+                                        <label for="bankruptcyDetails">If yes, please explain:</label>
+                                        <textarea id="bankruptcyDetails" name="bankruptcyDetails" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <label>Have you ever been convicted of a felony?</label>
+                                    <div class="checkbox-group">
+                                        <label><input type="radio" name="felonyHistory" value="yes"> Yes</label>
+                                        <label><input type="radio" name="felonyHistory" value="no"> No</label>
+                                    </div>
+                                    <div style="margin-top: 10px;">
+                                        <label for="felonyDetails">If yes, please explain:</label>
+                                        <textarea id="felonyDetails" name="felonyDetails" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Applicant Certification -->
+                        <div class="form-section">
+                            <h3>Applicant Certification</h3>
+                            <div class="form-row">
+                                <div class="form-group large">
+                                    <div class="checkbox-group">
+                                        <label style="align-items: flex-start;">
+                                            <input type="checkbox" name="certification" value="certified" required style="margin-top: 5px;">
+                                            <span style="margin-left: 10px;">
+                                                <strong>I certify that all information provided is true and complete.</strong> I understand that any misrepresentation or omission may result in denial of this application or termination of any resulting lease agreement. I authorize verification of all information provided and consent to background and credit checks.
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="applicantSignature">Digital Signature (Type Full Name) <span class="required">*</span></label>
+                                    <input type="text" id="applicantSignature" name="applicantSignature" required placeholder="Type your full legal name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="signatureDate">Date <span class="required">*</span></label>
+                                    <input type="date" id="signatureDate" name="signatureDate" required>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="form-actions">
+                    <div class="btn-group">
+                        <button type="submit" form="rentalApplicationForm" class="btn-form btn-primary">
+                            📧 Submit Application
+                        </button>
+                        <button type="button" onclick="saveAsDraft()" class="btn-form btn-secondary">
+                            💾 Save as Draft
+                        </button>
+                        <button type="button" onclick="printForm()" class="btn-form btn-outline">
+                            🖨️ Print Form
+                        </button>
+                        <a href="rental-application.html" class="btn-form btn-outline">
+                            📄 PDF Version
+                        </a>
+                    </div>
+                    <p style="margin-top: 1.5rem; color: #666; font-size: 0.9rem;">
+                        Questions? <a href="contact.html" style="color: #4a7c59;">Contact us</a> for assistance with your application.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>        // Set default date to today
+        document.getElementById('dateOfApplication').value = new Date().toISOString().split('T')[0];
+        document.getElementById('signatureDate').value = new Date().toISOString().split('T')[0];
+        
+        // Format phone numbers automatically
+        function formatPhoneNumber(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 6) {
+                value = value.substring(0, 3) + '-' + value.substring(3, 6) + '-' + value.substring(6, 10);
+            } else if (value.length >= 3) {
+                value = value.substring(0, 3) + '-' + value.substring(3);
+            }
+            input.value = value;
+        }
+        
+        // Format SSN
+        function formatSSN(input) {
+            let value = input.value.replace(/\D/g, '');
+            if (value.length >= 5) {
+                value = value.substring(0, 3) + '-' + value.substring(3, 5) + '-' + value.substring(5, 9);
+            } else if (value.length >= 3) {
+                value = value.substring(0, 3) + '-' + value.substring(3);
+            }
+            input.value = value;
+        }
+        
+        // Add event listeners for phone formatting
+        document.querySelectorAll('input[type="tel"]').forEach(input => {
+            input.addEventListener('input', () => formatPhoneNumber(input));
+        });
+        
+        // Add event listener for SSN formatting
+        document.getElementById('socialSecurity').addEventListener('input', function() {
+            formatSSN(this);
+        });
+        
+        // Auto-calculate total monthly income
+        function calculateTotalIncome() {
+            const currentIncome = parseFloat(document.getElementById('monthlyIncome').value) || 0;
+            const otherIncome = parseFloat(document.getElementById('otherIncomeAmount').value) || 0;
+            const previousIncome = parseFloat(document.getElementById('previousMonthlyIncome').value) || 0;
+            
+            const total = currentIncome + otherIncome;
+            document.getElementById('totalMonthlyIncome').value = total > 0 ? total.toFixed(2) : '';
+        }
+        
+        // Add listeners for income calculation
+        ['monthlyIncome', 'otherIncomeAmount'].forEach(id => {
+            const element = document.getElementById(id);
+            if (element) {
+                element.addEventListener('input', calculateTotalIncome);
+            }
+        });
+        
+        function handleFormSubmission(event) {
+            event.preventDefault();
+            
+            // Validate required fields
+            const form = document.getElementById('rentalApplicationForm');
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+            
+            // Collect form data
+            const formData = new FormData(form);
+            const applicationData = {};
+            
+            for (let [key, value] of formData.entries()) {
+                applicationData[key] = value;
+            }
+            
+            // Create email content
+            const subject = encodeURIComponent('Rental Application Submission - PepperTree Townhomes');
+            const body = encodeURIComponent(`Dear PepperTree Townhomes Management,
+
+I am submitting my rental application for your review. Here are my details:
+
+APPLICANT INFORMATION:
+Name: ${applicationData.firstName} ${applicationData.middleName || ''} ${applicationData.lastName}
+Email: ${applicationData.email}
+Phone: ${applicationData.cellPhone}
+Date of Birth: ${applicationData.dateOfBirth}
+
+CURRENT ADDRESS:
+${applicationData.presentAddress}
+
+EMPLOYMENT:
+Employer: ${applicationData.currentEmployer}
+Position: ${applicationData.position}
+Monthly Income: $${applicationData.monthlyIncome || 'Not specified'}
+
+MOVE-IN DATE:
+Desired move-in: ${applicationData.moveInDate || 'Flexible'}
+
+Please find my complete application details in this submission. I am available for any additional questions or to provide documentation as needed.
+
+Thank you for your consideration.
+
+Best regards,
+${applicationData.firstName} ${applicationData.lastName}
+${applicationData.email}
+${applicationData.cellPhone}`);
+            
+            // Open email client
+            window.location.href = `mailto:info@peppertreerentals.com?subject=${subject}&body=${body}`;
+            
+            // Show success message
+            alert('✅ Application prepared for submission! Your email client should open with the application details. Please send the email to complete your submission.');
+        }
+        
+        function saveAsDraft() {
+            const form = document.getElementById('rentalApplicationForm');
+            const formData = new FormData(form);
+            const draftData = {};
+            
+            for (let [key, value] of formData.entries()) {
+                if (value.trim()) {
+                    draftData[key] = value;
+                }
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('rentalApplicationDraft', JSON.stringify(draftData));
+            
+            // Create downloadable file
+            const dataStr = JSON.stringify(draftData, null, 2);
+            const dataBlob = new Blob([`RENTAL APPLICATION DRAFT\n\nSaved on: ${new Date().toLocaleDateString()}\n\nApplication Data:\n${dataStr}`], {type: 'text/plain'});
+            
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `rental_application_draft_${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            alert('💾 Draft saved! Your progress has been saved locally and downloaded as a backup file.');
+        }
+        
+        function printForm() {
+            window.print();
+        }
+        
+        // Load draft data if available
+        document.addEventListener('DOMContentLoaded', function() {
+            const draftData = localStorage.getItem('rentalApplicationDraft');
+            if (draftData) {
+                try {
+                    const data = JSON.parse(draftData);
+                    for (let [key, value] of Object.entries(data)) {
+                        const element = document.querySelector(`[name="${key}"]`);
+                        if (element) {
+                            if (element.type === 'radio') {
+                                const radio = document.querySelector(`[name="${key}"][value="${value}"]`);
+                                if (radio) radio.checked = true;
+                            } else {
+                                element.value = value;
+                            }
+                        }
+                    }
+                    
+                    if (confirm('📋 Draft data found! Would you like to load your previously saved information?')) {
+                        // Data already loaded above
+                        console.log('Draft data loaded successfully');
+                    } else {
+                        localStorage.removeItem('rentalApplicationDraft');
+                    }
+                } catch (error) {
+                    console.error('Error loading draft data:', error);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
