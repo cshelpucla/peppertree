@@ -101,7 +101,7 @@ def create_final_sign(inspiration_image_path, output_path, banner_width_ft, bann
 
 if __name__ == "__main__":
     create_final_sign(
-        inspiration_image_path="images/IMG_3858.png", # Assuming the user saved it here
+        inspiration_image_path="images/IMG_3858.png",
         output_path=os.path.join("images", "for_rent_sign_final_8x4.jpg"),
         banner_width_ft=8,
         banner_height_ft=4,
