@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neighborhood - PepperTree Townhomes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">PepperTree Townhomes</a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="floorplans.html">Floor Plans</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="neighborhood.html" class="active">Neighborhood</a></li>
+                <li><a href="available.html">Available Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="contact.html" class="btn btn-primary">Schedule Tour</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Neighborhood Section -->
+    <section class="compact-section" style="margin-top: 65px; padding: 60px 0; min-height: calc(100vh - 65px);">
+        <div class="container">
+            <div class="compact-header">
+                <span class="badge-modern">Location</span>
+                <h1>Discover <span class="highlight">Coalinga</span></h1>
+                <p>Your home in the sunny side of California's Central Valley</p>
+            </div>
+
+            <!-- Location Overview - 2 Column Layout -->
+            <div class="neighborhood-two-col">
+                <div class="neighborhood-col-card">
+                    <h3>📍 Perfect Location</h3>
+                    <p>
+                        Located in Coalinga, CA - a vibrant city in the heart of the San Joaquin Valley. 
+                        Easy access to I-5, SR-33, and SR-198.
+                    </p>
+                    <ul>
+                        <li>✓ 52 miles to Fresno</li>
+                        <li>✓ 80 miles to Salinas</li>
+                        <li>✓ 300+ days of sunshine</li>
+                        <li>✓ Walking distance to West Hills College</li>
+                    </ul>
+                </div>
+                <div class="neighborhood-col-card map-card">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3192.8476893916826!2d-120.36165492390707!3d36.83886567224169!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8093626f5b8e8e8b%3A0x5f8e8e8e8e8e8e8e!2s770%20E%20Elm%20Ave%2C%20Coalinga%2C%20CA%2093210!5e0!3m2!1sen!2sus!4v1696176000000!5m2!1sen!2sus"
+                        width="100%" 
+                        height="100%" 
+                        style="border:0; min-height: 300px;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        title="PepperTree Townhomes Location Map">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Nearby Attractions - 8 Items in Grid -->
+            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Nearby Attractions</h2>
+            <div class="compact-amenities-grid" style="margin-bottom: 3rem;">
+                <div class="compact-amenity-item">
+                    <div class="amenity-icon-compact">🏫</div>
+                    <h4>West Hills College</h4>
+                </div>
+                <div class="compact-amenity-item">
+                    <div class="amenity-icon-compact">🍖</div>
+                    <h4>Harris Ranch</h4>
+                </div>
+                <div class="compact-amenity-item">
+                    <div class="amenity-icon-compact">🏛️</div>
+                    <h4>R.C. Baker Museum</h4>
+                </div>
+                <div class="compact-amenity-item">
+                    <div class="amenity-icon-compact">🎈</div>
+                    <h4>Balloon Rally</h4>
+                </div>
+                <div class="compact-amenity-item">
+                    <div class="amenity-icon-compact">🦎</div>
+                    <h4>Horned Toad Derby</h4>
+                </div>
+                <div class="compact-amenity-item">
+                    <div class="amenity-icon-compact">🏪</div>
+                    <h4>Shopping & Dining</h4>
+                </div>
+                <div class="compact-amenity-item">
+                    <div class="amenity-icon-compact">🌄</div>
+                    <h4>Pleasant Valley</h4>
+                </div>
+                <div class="compact-amenity-item">
+                    <div class="amenity-icon-compact">✈️</div>
+                    <h4>Fresno Airport</h4>
+                </div>
+            </div>
+
+            <!-- Photo Gallery - 4 Photos -->
+            <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Neighborhood Highlights</h2>
+            <div class="compact-gallery-grid">
+                <div class="gallery-item">
+                    <img src="images/neighborhood-college.jpg" alt="West Hills College">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/neighborhood-ranch.jpg" alt="Harris Ranch">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/neighborhood-museum.jpg" alt="R.C. Baker Museum">
+                </div>
+                <div class="gallery-item">
+                    <img src="images/neighborhood-balloons.jpg" alt="WHAMOBASS Balloon Rally">
+                </div>
+            </div>
+
+            <div class="cta-buttons" style="margin-top: 3rem;">
+                <a href="contact.html" class="btn btn-primary btn-lg">Schedule A Tour</a>
+                <a href="available.html" class="btn btn-secondary btn-lg">View Available Units</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>PepperTree Townhomes</h4>
+                    <p>Your perfect home awaits in our beautiful community.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="floorplans.html">Floor Plans</a></li>
+                        <li><a href="amenities.html">Amenities</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="neighborhood.html">Neighborhood</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect With Us</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-link">Facebook</a>
+                        <a href="#" class="social-link">Instagram</a>
+                        <a href="#" class="social-link">Twitter</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PepperTree Townhomes. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                    <a href="#">Accessibility</a>
+                </div>
+                <div class="equal-housing">
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect fill='%23fff' width='100' height='100'/%3E%3Cpath fill='%23000' d='M50 20L20 45h10v30h15V60h10v15h15V45h10L50 20z'/%3E%3C/svg%3E" alt="Equal Housing Opportunity" style="width: 30px; height: 30px;">
+                    <span>Equal Housing Opportunity</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

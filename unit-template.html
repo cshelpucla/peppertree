@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Unit - PepperTree Townhomes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">PepperTree Townhomes</a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="floorplans.html">Floor Plans</a></li>
+                <li><a href="amenities.html">Amenities</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="neighborhood.html">Neighborhood</a></li>
+                <li><a href="available.html" class="active">Available Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="contact.html" class="btn btn-primary">Schedule Tour</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Special Offer Banner -->
+        <section class="special-banner" style="margin-top: 80px;">
+            <div class="container">
+                <div class="banner-content">
+                    <span class="banner-tag" id="bannerTag"></span>
+                    <h2 id="bannerTitle"></h2>
+                    <p id="bannerSubtitle"></p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Available Unit -->
+        <section class="featured-unit">
+            <div class="container">
+                <div class="unit-header">
+                    <div class="unit-title">
+                        <span class="availability-badge">Available Now</span>
+                        <h2 id="unitTitle"></h2>
+                        <div class="unit-price">
+                            <span class="price-amount" id="unitPrice"></span>
+                            <span class="price-period">/month</span>
+                        </div>
+                    </div>
+                    <a href="contact.html" class="btn btn-primary">Schedule a Tour</a>
+                </div>
+
+                <!-- Photo Gallery -->
+                <div class="unit-gallery">
+                    <div class="main-photo">
+                        <img id="mainImage" src="" alt="Unit Photo">
+                    </div>
+                    <div class="photo-grid-expanded" id="photoGrid">
+                        <!-- Photos will be inserted here dynamically -->
+                    </div>
+                </div>
+
+                <!-- Unit Details -->
+                <div class="unit-details-grid">
+                    <div class="detail-card">
+                        <div class="detail-icon">🏠</div>
+                        <div class="detail-info">
+                            <h3>Unit Number</h3>
+                            <p id="unitNumber"></p>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">🛏️</div>
+                        <div class="detail-info">
+                            <h3>Bedrooms</h3>
+                            <p><span id="bedroomCount"></span> Bedrooms</p>
+                            <small id="layoutDesc"></small>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">🚿</div>
+                        <div class="detail-info">
+                            <h3>Bathrooms</h3>
+                            <p><span id="bathroomCount"></span> Full Baths</p>
+                            <small id="bathroomDesc"></small>
+                        </div>
+                    </div>
+                    <div class="detail-card">
+                        <div class="detail-icon">💰</div>
+                        <div class="detail-info">
+                            <h3>Monthly Rent</h3>
+                            <p class="price-highlight" id="priceDisplay"></p>
+                            <small class="special-tag" id="specialTag"></small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Description -->
+                <div class="unit-description">
+                    <h3>About <span id="unitNumberDesc"></span></h3>
+                    <div id="descriptionContent">
+                        <!-- Description paragraphs will be inserted here -->
+                    </div>
+                </div>
+
+                <!-- Features & Amenities -->
+                <div class="unit-features-section">
+                    <h3>Features & Amenities</h3>
+                    <div class="features-columns">
+                        <div class="feature-column">
+                            <h4>Interior Features</h4>
+                            <ul id="interiorFeaturesList">
+                                <!-- Features will be inserted here -->
+                            </ul>
+                        </div>
+                        <div class="feature-column">
+                            <h4>Community Amenities</h4>
+                            <ul id="communityAmenitiesList">
+                                <!-- Amenities will be inserted here -->
+                            </ul>
+                        </div>
+                        <div class="feature-column">
+                            <h4>Prime Location</h4>
+                            <ul id="locationFeaturesList">
+                                <!-- Location features will be inserted here -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lease Terms -->
+                <div class="lease-terms">
+                    <h3>Lease Information</h3>
+                    <div class="terms-grid">
+                        <div class="term-item">
+                            <strong>Monthly Rent:</strong>
+                            <span id="leasePrice"></span>
+                        </div>
+                        <div class="term-item">
+                            <strong>Security Deposit:</strong>
+                            <span id="securityDeposit"></span>
+                        </div>
+                        <div class="term-item">
+                            <strong>Lease Term:</strong>
+                            <span id="leaseTerm"></span>
+                        </div>
+                        <div class="term-item">
+                            <strong>Available:</strong>
+                            <span id="availability"></span>
+                        </div>
+                        <div class="term-item">
+                            <strong>Pets:</strong>
+                            <span id="pets"></span>
+                        </div>
+                        <div class="term-item">
+                            <strong>Unit Number:</strong>
+                            <span id="leaseUnitNumber"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <div class="unit-cta">
+                    <div class="cta-content">
+                        <h3>Ready to Make <span id="ctaUnitNumber"></span> Your Home?</h3>
+                        <p id="ctaMessage"></p>
+                        <div class="cta-buttons">
+                            <a href="contact.html" class="btn btn-primary btn-lg">Schedule a Tour</a>
+                            <a href="tel:5555551234" class="btn btn-secondary btn-lg">Call Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Other Available Units -->
+        <section class="other-plans">
+            <div class="container">
+                <h2>Other Available Units</h2>
+                <p class="section-subtitle">Explore all available options at PepperTree Townhomes</p>
+                <div class="plans-grid" id="otherUnitsGrid">
+                    <!-- Other units will be inserted here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>PepperTree Townhomes</h3>
+                    <p>770 E Elm Ave<br>Coalinga, CA 93210</p>
+                    <p>Phone: (555) 555-1234<br>Email: info@peppertreetownhomes.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="floorplans.html">Floor Plans</a></li>
+                        <li><a href="amenities.html">Amenities</a></li>
+                        <li><a href="available.html">Available Now</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Information</h4>
+                    <ul>
+                        <li><a href="neighborhood.html">Neighborhood</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Office Hours</h4>
+                    <p>Monday - Friday: 9:00 AM - 6:00 PM<br>
+                    Saturday: 10:00 AM - 4:00 PM<br>
+                    Sunday: By Appointment</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PepperTree Townhomes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="unit-loader.js"></script>
+</body>
+</html>
