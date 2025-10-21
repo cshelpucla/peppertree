@@ -13,33 +13,41 @@ async function checkAuth() {
         
         if (data.authenticated) {
             currentUser = data.user;
-            showAdminButton();
+            showLoggedInState();
             showApplicationsLink();
         } else {
             currentUser = null;
-            showSignInButton();
+            showSignInState();
             hideApplicationsLink();
         }
     } catch (error) {
         console.error('Auth check failed:', error);
-        showSignInButton();
+        showSignInState();
         hideApplicationsLink();
     }
 }
 
-function showSignInButton() {
-    const authBtn = document.getElementById('authButton');
-    if (authBtn) {
-        authBtn.innerHTML = '🔐 Sign In';
-        authBtn.onclick = () => openLoginModal();
+function showSignInState() {
+    const authLink = document.getElementById('authNavLink');
+    if (authLink) {
+        authLink.textContent = 'Sign In';
+        authLink.classList.remove('logged-in');
+        authLink.onclick = (e) => {
+            e.preventDefault();
+            openLoginModal();
+        };
     }
 }
 
-function showAdminButton() {
-    const authBtn = document.getElementById('authButton');
-    if (authBtn) {
-        authBtn.innerHTML = `👤 ${currentUser.username}`;
-        authBtn.onclick = () => openAdminMenu();
+function showLoggedInState() {
+    const authLink = document.getElementById('authNavLink');
+    if (authLink) {
+        authLink.textContent = `👤 ${currentUser.username}`;
+        authLink.classList.add('logged-in');
+        authLink.onclick = (e) => {
+            e.preventDefault();
+            openAdminMenu();
+        };
     }
 }
 
@@ -97,7 +105,7 @@ async function handleLogin(event) {
         if (data.success) {
             currentUser = data.user;
             closeLoginModal();
-            showAdminButton();
+            showLoggedInState();
             showApplicationsLink();
             showNotification('Logged in successfully!', 'success');
         } else {
@@ -114,7 +122,7 @@ async function handleLogout() {
     try {
         await fetch('auth.php', { method: 'DELETE' });
         currentUser = null;
-        showSignInButton();
+        showSignInState();
         hideApplicationsLink();
         closeAdminMenu();
         showNotification('Logged out successfully', 'success');
@@ -300,7 +308,7 @@ window.onclick = function(event) {
     if (event.target === addUserModal) {
         closeAddUserModal();
     }
-    if (adminMenu && !event.target.closest('#adminMenu') && !event.target.closest('#authButton')) {
+    if (adminMenu && !event.target.closest('#adminMenu') && !event.target.closest('#authNavLink')) {
         closeAdminMenu();
     }
 };

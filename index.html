@@ -23,10 +23,10 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="neighborhood.html">Neighborhood</a></li>
-                <li><a href="available.html">Available Now</a></li>
                 <li><a href="applications-list.html">Applications</a></li>
                 <li><a href="rental-application-form.html">Apply Now</a></li>
                 <li><a href="contact.html">Contact</a></li>
+                <li><a href="#" id="authNavLink" class="auth-nav-link">Sign In</a></li>
             </ul>
         </div>
     </nav>
@@ -149,33 +149,8 @@
             <p class="section-subtitle">Schedule a tour or request more information</p>
             
             <div class="contact-content">
-                <div class="contact-info">
-                    <div class="info-card">
-                        <h3>Contact Us</h3>
-                        <div class="info-item">
-                            <strong>PepperTree Townhomes</strong><br>
-                            [Your Address Here]<br>
-                            [City, State ZIP]
-                        </div>
-                        <div class="info-item">
-                            <strong>Phone:</strong><br>
-                            <a href="tel:+15555551234">(555) 555-1234</a><br>
-                            TTY: 711
-                        </div>
-                        <div class="info-item">
-                            <strong>Email:</strong><br>
-                            <a href="mailto:rent@peppertreetownhomes.com">rent@peppertreetownhomes.com</a>
-                        </div>
-                    </div>
-                    
-                    <div class="info-card">
-                        <h3>Office Hours</h3>
-                        <div class="info-item">
-                            <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM<br>
-                            <strong>Saturday:</strong> 10:00 AM - 4:00 PM<br>
-                            <strong>Sunday:</strong> Closed
-                        </div>
-                    </div>
+                <div class="contact-info" id="homeContactInfo">
+                    <!-- Contact info will be loaded from contact.json -->
                 </div>
 
                 <div class="contact-form-container">
@@ -270,9 +245,6 @@
             </div>
         </div>
     </footer>
-
-    <!-- Auth Button -->
-    <button id="authButton">🔐 Sign In</button>
 
     <!-- Admin Menu -->
     <div id="adminMenu">
@@ -374,6 +346,92 @@
             </form>
         </div>
     </div>
+
+    <script>
+        // Load contact data for home page
+        async function loadHomeContactInfo() {
+            try {
+                const response = await fetch('contact.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load contact data');
+                }
+                const data = await response.json();
+                
+                const contactInfoDiv = document.getElementById('homeContactInfo');
+                if (!contactInfoDiv) return;
+                
+                // Create Contact Us card
+                const contactCard = `
+                    <div class="info-card">
+                        <h3>Contact Us</h3>
+                        <div class="info-item">
+                            <strong>PepperTree Townhomes</strong><br>
+                            ${data.contactInfo.address.line1}<br>
+                            ${data.contactInfo.address.line2}
+                        </div>
+                        <div class="info-item">
+                            <strong>Phone:</strong><br>
+                            <a href="${data.contactInfo.phone.phoneLink}">${data.contactInfo.phone.number}</a><br>
+                            TTY: 711
+                        </div>
+                        <div class="info-item">
+                            <strong>Email:</strong><br>
+                            <a href="${data.contactInfo.email.emailLink}">${data.contactInfo.email.address}</a>
+                        </div>
+                    </div>
+                `;
+                
+                // Create Office Hours card
+                const hoursCard = `
+                    <div class="info-card">
+                        <h3>Office Hours</h3>
+                        <div class="info-item">
+                            ${data.contactInfo.phone.hours}
+                        </div>
+                    </div>
+                `;
+                
+                contactInfoDiv.innerHTML = contactCard + hoursCard;
+                
+            } catch (error) {
+                console.error('Error loading contact data:', error);
+                // Fallback content if JSON fails to load
+                const contactInfoDiv = document.getElementById('homeContactInfo');
+                if (contactInfoDiv) {
+                    contactInfoDiv.innerHTML = `
+                        <div class="info-card">
+                            <h3>Contact Us</h3>
+                            <div class="info-item">
+                                <strong>PepperTree Townhomes</strong><br>
+                                770 E Elm Ave<br>
+                                Coalinga, CA 93210
+                            </div>
+                            <div class="info-item">
+                                <strong>Phone:</strong><br>
+                                <a href="tel:+15555551234">(555) 555-1234</a><br>
+                                TTY: 711
+                            </div>
+                            <div class="info-item">
+                                <strong>Email:</strong><br>
+                                <a href="mailto:rent@peppertreetownhomes.com">rent@peppertreetownhomes.com</a>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <h3>Office Hours</h3>
+                            <div class="info-item">
+                                <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM<br>
+                                <strong>Saturday:</strong> 10:00 AM - 4:00 PM<br>
+                                <strong>Sunday:</strong> Closed
+                            </div>
+                        </div>
+                    `;
+                }
+            }
+        }
+        
+        // Load contact info when page loads
+        document.addEventListener('DOMContentLoaded', loadHomeContactInfo);
+    </script>
 
     <script src="script.js"></script>
     <script src="unit-data-loader.js"></script>
