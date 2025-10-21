@@ -1,0 +1,81 @@
+{
+  "pageHeader": {
+    "badge": "Let's Connect",
+    "title": "Get in Touch with <span class=\"highlight\">PepperTree</span>",
+    "subtitle": "We'd love to hear from you! Reach out and let's find your perfect home."
+  },
+  "contactInfo": {
+    "address": {
+      "icon": "📍",
+      "title": "Visit Us",
+      "line1": "760 E Elm Ave",
+      "line2": "Coalinga, CA 93210",
+      "googleMapsUrl": "https://www.google.com/maps/dir/?api=1&destination=770+E+Elm+Ave,+Coalinga,+CA+93210",
+      "buttonText": "Get Directions →"
+    },
+    "phone": {
+      "icon": "📞",
+      "title": "Call Us",
+      "number": "(559) 935-2985",
+      "phoneLink": "tel:+15599352985",
+      "hours": "Mon-Fri: 9AM-5PM<br>Sat: 10AM-4PM"
+    },
+    "email": {
+      "icon": "✉️",
+      "title": "Email Us",
+      "address": "rent@peppertreetownhomes.com",
+      "emailLink": "mailto:rent@peppertreetownhomes.com",
+      "responseTime": "We respond within 24 hours"
+    }
+  },
+  "contactForm": {
+    "header": "✨ Send Us a Message",
+    "subtitle": "Fill out the form and we'll respond within 24 hours",
+    "fields": {
+      "firstName": {
+        "placeholder": "First Name *",
+        "required": true
+      },
+      "lastName": {
+        "placeholder": "Last Name *",
+        "required": true
+      },
+      "email": {
+        "placeholder": "Email *",
+        "required": true
+      },
+      "phone": {
+        "placeholder": "Phone",
+        "required": false
+      },
+      "inquiryType": {
+        "label": "I'm interested in... *",
+        "required": true,
+        "options": [
+          {
+            "value": "tour",
+            "label": "Scheduling a Tour"
+          },
+          {
+            "value": "availability",
+            "label": "Checking Availability"
+          },
+          {
+            "value": "application",
+            "label": "Application Information"
+          },
+          {
+            "value": "general",
+            "label": "General Questions"
+          }
+        ]
+      },
+      "message": {
+        "placeholder": "Your message...",
+        "rows": 3,
+        "required": true
+      }
+    },
+    "submitButton": "Send Message"
+  }
+}

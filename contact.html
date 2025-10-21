@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - PepperTree Townhomes</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-auth.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -20,89 +21,55 @@
                 <span></span>
             </button>            <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="floorplans.html">Floor Plans</a></li>
-                <li><a href="amenities.html">Amenities</a></li>
-                <li><a href="gallery.html">Gallery</a></li>
                 <li><a href="neighborhood.html">Neighborhood</a></li>
                 <li><a href="available.html">Available Now</a></li>
+                <li><a href="applications-list.html">Applications</a></li>
                 <li><a href="rental-application.html">Apply Now</a></li>
                 <li><a href="contact.html" class="active">Contact</a></li>
             </ul>
-            <div class="nav-cta">
-                <a href="contact.html" class="btn btn-primary">Schedule Tour</a>
-            </div>
         </div>
     </nav>
 
     <!-- Compact Contact Section -->
     <section class="contact-section-compact">
         <div class="container">
-            <div class="contact-header-compact">
-                <span class="badge-modern">Let's Connect</span>
-                <h1>Get in Touch with <span class="highlight">PepperTree</span></h1>
-                <p>We'd love to hear from you! Reach out and let's find your perfect home.</p>
+            <div class="contact-header-compact" id="contactHeader">
+                <span class="badge-modern" data-field="badge">Let's Connect</span>
+                <h1 data-field="title">Get in Touch with <span class="highlight">PepperTree</span></h1>
+                <p data-field="subtitle">We'd love to hear from you! Reach out and let's find your perfect home.</p>
             </div>
             
             <div class="contact-grid-compact">
                 <!-- Quick Contact Info -->
-                <div class="quick-contact">
-                    <div class="contact-card-compact">
-                        <div class="contact-icon">📍</div>
-                        <div>
-                            <strong>Visit Us</strong>
-                            <p>770 E Elm Ave<br>Coalinga, CA 93210</p>
-                            <a href="https://www.google.com/maps/dir/?api=1&destination=770+E+Elm+Ave,+Coalinga,+CA+93210" 
-                               target="_blank" class="link-btn">Get Directions →</a>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-card-compact">
-                        <div class="contact-icon">📞</div>
-                        <div>
-                            <strong>Call Us</strong>
-                            <p><a href="tel:+15555551234">(555) 555-1234</a></p>
-                            <p style="font-size: 13px; color: var(--text-light);">Mon-Fri: 9AM-6PM<br>Sat: 10AM-4PM</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-card-compact">
-                        <div class="contact-icon">✉️</div>
-                        <div>
-                            <strong>Email Us</strong>
-                            <p><a href="mailto:rent@peppertreetownhomes.com">rent@peppertreetownhomes.com</a></p>
-                            <p style="font-size: 13px; color: var(--text-light);">We respond within 24 hours</p>
-                        </div>
-                    </div>
+                <div class="quick-contact" id="quickContact">
+                    <!-- Contact cards will be loaded from JSON -->
                 </div>
 
                 <!-- Compact Contact Form -->
                 <div class="form-container-compact">
-                    <div class="form-header-modern">
-                        <h3>✨ Send Us a Message</h3>
-                        <p>Fill out the form and we'll respond within 24 hours</p>
+                    <div class="form-header-modern" id="formHeader">
+                        <h3 data-field="header">✨ Send Us a Message</h3>
+                        <p data-field="subtitle">Fill out the form and we'll respond within 24 hours</p>
                     </div>
                     <form class="contact-form-compact" id="contactForm">
                         <div class="form-row-compact">
-                            <input type="text" id="firstName" name="firstName" placeholder="First Name *" required>
-                            <input type="text" id="lastName" name="lastName" placeholder="Last Name *" required>
+                            <input type="text" id="firstName" name="firstName" data-field="firstName" placeholder="First Name *" required>
+                            <input type="text" id="lastName" name="lastName" data-field="lastName" placeholder="Last Name *" required>
                         </div>
                         
                         <div class="form-row-compact">
-                            <input type="email" id="email" name="email" placeholder="Email *" required>
-                            <input type="tel" id="phone" name="phone" placeholder="Phone">
+                            <input type="email" id="email" name="email" data-field="email" placeholder="Email *" required>
+                            <input type="tel" id="phone" name="phone" data-field="phone" placeholder="Phone">
                         </div>
 
-                        <select id="inquiryType" name="inquiryType" required>
+                        <select id="inquiryType" name="inquiryType" data-field="inquiryType" required>
                             <option value="">I'm interested in... *</option>
-                            <option value="tour">Scheduling a Tour</option>
-                            <option value="availability">Checking Availability</option>
-                            <option value="application">Application Information</option>
-                            <option value="general">General Questions</option>
+                            <!-- Options will be loaded from JSON -->
                         </select>
 
-                        <textarea id="message" name="message" rows="3" required placeholder="Your message..."></textarea>
+                        <textarea id="message" name="message" data-field="message" rows="3" required placeholder="Your message..."></textarea>
 
-                        <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                        <button type="submit" class="btn btn-primary btn-block" data-field="submitButton">Send Message</button>
                     </form>
                 </div>
             </div>
@@ -121,10 +88,10 @@
                     <h4>Quick Links</h4>
                     <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="floorplans.html">Floor Plans</a></li>
-                        <li><a href="amenities.html">Amenities</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
                         <li><a href="neighborhood.html">Neighborhood</a></li>
+                        <li><a href="available.html">Available Now</a></li>
+                        <li><a href="applications-list.html">Applications</a></li>
+                        <li><a href="rental-application-form.html">Apply Now</a></li>
                         <li><a href="contact.html">Contact</a></li>
                     </ul>
                 </div>
@@ -153,5 +120,248 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // Format phone number as user types
+        function formatPhoneNumber(value) {
+            const digits = value.replace(/\D/g, '');
+            
+            if (digits.length <= 3) {
+                return digits;
+            } else if (digits.length <= 6) {
+                return `(${digits.substring(0, 3)}) ${digits.substring(3)}`;
+            } else {
+                return `(${digits.substring(0, 3)}) ${digits.substring(3, 6)}-${digits.substring(6, 10)}`;
+            }
+        }
+        
+        const phoneInput = document.getElementById('phone');
+        if (phoneInput) {
+            phoneInput.addEventListener('input', function(e) {
+                const cursorPosition = this.selectionStart;
+                const oldLength = this.value.length;
+                
+                this.value = formatPhoneNumber(this.value);
+                
+                const newLength = this.value.length;
+                const diff = newLength - oldLength;
+                
+                if (diff > 0) {
+                    this.selectionStart = this.selectionEnd = cursorPosition + diff;
+                } else {
+                    this.selectionStart = this.selectionEnd = cursorPosition;
+                }
+            });
+        }
+    </script>
+
+    <!-- Auth Button -->
+    <button id="authButton">🔐 Sign In</button>
+
+    <!-- Admin Menu -->
+    <div id="adminMenu">
+        <button onclick="openUserManagement()">👥 Manage Users</button>
+        <button onclick="handleLogout()">🚪 Logout</button>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Admin Login</h2>
+                <button class="modal-close" onclick="closeLoginModal()">×</button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="error-message" id="loginError"></div>
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeLoginModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Management Modal -->
+    <div id="userManagementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>User Management</h2>
+                <button class="modal-close" onclick="closeUserManagement()">×</button>
+            </div>
+            <div class="user-management-header">
+                <div>
+                    <p style="color: #666; margin: 0;">Manage administrator accounts</p>
+                </div>
+                <button class="btn-add-user" onclick="openAddUserModal()">➕ Add User</button>
+            </div>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Created</th>
+                        <th>Last Login</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+            <div class="modal-actions" style="margin-top: 25px;">
+                <button class="btn btn-secondary" onclick="closeUserManagement()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New User</h2>
+                <button class="modal-close" onclick="closeAddUserModal()">×</button>
+            </div>
+            <form id="addUserForm" onsubmit="handleAddUser(event)">
+                <div class="error-message" id="addUserError"></div>
+                <div class="form-group">
+                    <label for="newUsername">Username *</label>
+                    <input type="text" id="newUsername" required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email *</label>
+                    <input type="email" id="newEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password *</label>
+                    <input type="password" id="newPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="newRole">Role *</label>
+                    <select id="newRole" required>
+                        <option value="administrator">Administrator</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddUserModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Load contact data from JSON
+        async function loadContactData() {
+            try {
+                const response = await fetch('contact.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load contact data');
+                }
+                const data = await response.json();
+                
+                // Populate page header
+                const badge = document.querySelector('[data-field="badge"]');
+                const title = document.querySelector('[data-field="title"]');
+                const subtitle = document.querySelector('[data-field="subtitle"]');
+                
+                if (badge) badge.textContent = data.pageHeader.badge;
+                if (title) title.innerHTML = data.pageHeader.title;
+                if (subtitle) subtitle.textContent = data.pageHeader.subtitle;
+                
+                // Generate quick contact cards
+                const quickContact = document.getElementById('quickContact');
+                
+                // Address card
+                const addressCard = `
+                    <div class="quick-contact-card">
+                        <div class="contact-icon">${data.contactInfo.address.icon}</div>
+                        <div>
+                            <h3>${data.contactInfo.address.title}</h3>
+                            <p>${data.contactInfo.address.line1}<br>${data.contactInfo.address.line2}</p>
+                            <a href="${data.contactInfo.address.googleMapsUrl}" target="_blank" class="contact-link">
+                                ${data.contactInfo.address.buttonText}
+                            </a>
+                        </div>
+                    </div>
+                `;
+                
+                // Phone card
+                const phoneCard = `
+                    <div class="quick-contact-card">
+                        <div class="contact-icon">${data.contactInfo.phone.icon}</div>
+                        <div>
+                            <h3>${data.contactInfo.phone.title}</h3>
+                            <p><a href="${data.contactInfo.phone.phoneLink}" class="contact-link">${data.contactInfo.phone.number}</a></p>
+                            <p class="hours">${data.contactInfo.phone.hours}</p>
+                        </div>
+                    </div>
+                `;
+                
+                // Email card
+                const emailCard = `
+                    <div class="quick-contact-card">
+                        <div class="contact-icon">${data.contactInfo.email.icon}</div>
+                        <div>
+                            <h3>${data.contactInfo.email.title}</h3>
+                            <p><a href="${data.contactInfo.email.emailLink}" class="contact-link">${data.contactInfo.email.address}</a></p>
+                            <p class="response-time">${data.contactInfo.email.responseTime}</p>
+                        </div>
+                    </div>
+                `;
+                
+                quickContact.innerHTML = addressCard + phoneCard + emailCard;
+                
+                // Populate form header
+                const formHeader = document.querySelector('[data-field="header"]');
+                const formSubtitle = document.querySelector('[data-field="subtitle"]');
+                if (formHeader) formHeader.textContent = data.contactForm.header;
+                if (formSubtitle) formSubtitle.textContent = data.contactForm.subtitle;
+                
+                // Populate form field placeholders
+                const fields = data.contactForm.fields;
+                Object.keys(fields).forEach(fieldName => {
+                    const field = fields[fieldName];
+                    const input = document.querySelector(`[data-field="${fieldName}"]`);
+                    if (input && field.placeholder) {
+                        input.placeholder = field.placeholder;
+                    }
+                });
+                
+                // Populate inquiry type options
+                const inquirySelect = document.querySelector('[data-field="inquiryType"]');
+                if (inquirySelect && fields.inquiryType.options) {
+                    const defaultOption = `<option value="">${fields.inquiryType.label}</option>`;
+                    const options = fields.inquiryType.options.map(option => 
+                        `<option value="${option.value}">${option.label}</option>`
+                    ).join('');
+                    inquirySelect.innerHTML = defaultOption + options;
+                }
+                
+                // Set submit button text
+                const submitBtn = document.querySelector('[data-field="submitButton"]');
+                if (submitBtn) {
+                    submitBtn.textContent = data.contactForm.submitButton;
+                }
+                
+            } catch (error) {
+                console.error('Error loading contact data:', error);
+                // Fallback to showing default/existing content if JSON fails to load
+            }
+        }
+        
+        // Load contact data when page loads
+        document.addEventListener('DOMContentLoaded', loadContactData);
+    </script>
+
+    <script src="admin-auth.js"></script>
 </body>
 </html>

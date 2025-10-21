@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submitted Applications - PepperTree Townhomes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .applications-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 3px solid #2c5530;
+        }
+
+        .page-header h1 {
+            color: #2c5530;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%);
+            color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            margin: 0.5rem 0 0 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .search-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .search-filter input,
+        .search-filter select {
+            padding: 0.75rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-filter input:focus,
+        .search-filter select:focus {
+            outline: none;
+            border-color: #2c5530;
+        }
+
+        .applications-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .applications-table thead {
+            background: #2c5530;
+            color: white;
+        }
+
+        .applications-table th {
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .applications-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #f0f0f0;
+            font-size: 0.9rem;
+        }
+
+        .applications-table tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.35rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-new {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+
+        .status-reviewed {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+
+        .status-approved {
+            background: #e8f5e9;
+            color: #388e3c;
+        }
+
+        .view-btn {
+            padding: 0.5rem 1rem;
+            background: #4a7c59;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: background 0.3s;
+        }
+
+        .view-btn:hover {
+            background: #2c5530;
+        }
+
+        .no-applications {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .applications-table {
+                font-size: 0.85rem;
+            }
+
+            .applications-table th,
+            .applications-table td {
+                padding: 0.75rem 0.5rem;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .search-filter input,
+            .search-filter select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">PepperTree Townhomes</a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="neighborhood.html">Neighborhood</a></li>
+                <li><a href="available.html">Available Now</a></li>
+                <li><a href="applications-list.html" class="active">Applications</a></li>
+                <li><a href="rental-application-form.html">Apply Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="applications-container" style="margin-top: 80px;">
+        <div class="stats-row">
+            <div class="stat-card">
+                <h3 id="totalCount">0</h3>
+                <p>Total Applications</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="todayCount">0</h3>
+                <p>Today</p>
+            </div>
+            <div class="stat-card">
+                <h3 id="weekCount">0</h3>
+                <p>This Week</p>
+            </div>
+        </div>
+
+        <div class="search-filter">
+            <input type="text" id="searchInput" placeholder="🔍 Search by name, email, or phone...">
+            <select id="sortSelect">
+                <option value="date-desc">Newest First</option>
+                <option value="date-asc">Oldest First</option>
+                <option value="name-asc">Name A-Z</option>
+                <option value="name-desc">Name Z-A</option>
+            </select>
+        </div>
+
+        <div id="errorContainer"></div>
+        <div id="loadingContainer" class="loading">Loading applications...</div>
+
+        <table class="applications-table" id="applicationsTable" style="display: none;">
+            <thead>
+                <tr>
+                    <th>Date Submitted</th>
+                    <th>Applicant Name</th>
+                    <th>Contact</th>
+                    <th>Move-In Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+
+        <div id="noApplications" class="no-applications" style="display: none;">
+            <h3>No Applications Found</h3>
+            <p>There are no submitted applications yet.</p>
+        </div>
+    </div>
+
+    <!-- Auth Button -->
+    <button id="authButton">🔐 Sign In</button>
+
+    <!-- Admin Menu -->
+    <div id="adminMenu">
+        <button onclick="openUserManagement()">👥 Manage Users</button>
+        <button onclick="handleLogout()">🚪 Logout</button>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Admin Login</h2>
+                <button class="modal-close" onclick="closeLoginModal()">×</button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="error-message" id="loginError"></div>
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeLoginModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Management Modal -->
+    <div id="userManagementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>User Management</h2>
+                <button class="modal-close" onclick="closeUserManagement()">×</button>
+            </div>
+            <div class="user-management-header">
+                <div>
+                    <p style="color: #666; margin: 0;">Manage administrator accounts</p>
+                </div>
+                <button class="btn-add-user" onclick="openAddUserModal()">➕ Add User</button>
+            </div>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Created</th>
+                        <th>Last Login</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+            <div class="modal-actions" style="margin-top: 25px;">
+                <button class="btn btn-secondary" onclick="closeUserManagement()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New User</h2>
+                <button class="modal-close" onclick="closeAddUserModal()">×</button>
+            </div>
+            <form id="addUserForm" onsubmit="handleAddUser(event)">
+                <div class="error-message" id="addUserError"></div>
+                <div class="form-group">
+                    <label for="newUsername">Username *</label>
+                    <input type="text" id="newUsername" required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email *</label>
+                    <input type="email" id="newEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password *</label>
+                    <input type="password" id="newPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="newRole">Role *</label>
+                    <select id="newRole" required>
+                        <option value="administrator">Administrator</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddUserModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="admin-auth.js"></script>
+    <script>
+        // Check authentication before loading page content
+        async function checkPageAccess() {
+            try {
+                const response = await fetch('auth.php');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    // Redirect to home page if not authenticated
+                    window.location.href = 'index.html';
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                window.location.href = 'index.html';
+                return false;
+            }
+        }
+
+        let applications = [];
+        let filteredApplications = [];
+
+        async function loadApplications() {
+            // Check authentication first
+            const hasAccess = await checkPageAccess();
+            if (!hasAccess) return;
+            
+            try {
+                const response = await fetch('list_applications.php');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const contentType = response.headers.get('content-type');
+                if (!contentType || !contentType.includes('application/json')) {
+                    const text = await response.text();
+                    console.error('Received non-JSON response:', text.substring(0, 200));
+                    throw new Error('Invalid response format');
+                }
+                
+                const data = await response.json();
+                
+                if (!data.success) {
+                    throw new Error(data.message || 'Failed to load applications');
+                }
+                
+                applications = data.applications || [];
+                filteredApplications = applications;
+                updateStats();
+                renderApplications();
+                
+                // Hide loading, show content
+                document.getElementById('loadingContainer').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Error loading applications:', error);
+                const errorContainer = document.getElementById('errorContainer');
+                errorContainer.innerHTML = `
+                    <div class="error-message" style="display: block;">
+                        ⚠️ Error loading applications: ${error.message}
+                    </div>
+                `;
+                document.getElementById('loadingContainer').style.display = 'none';
+            }
+        }
+
+        function updateStats() {
+            const now = new Date();
+            const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+            const todayCount = applications.filter(app => {
+                const appDate = new Date(app.submittedAt || app.submissionDate);
+                return appDate >= today;
+            }).length;
+
+            const weekCount = applications.filter(app => {
+                const appDate = new Date(app.submittedAt || app.submissionDate);
+                return appDate >= weekAgo;
+            }).length;
+
+            document.getElementById('totalCount').textContent = applications.length;
+            document.getElementById('todayCount').textContent = todayCount;
+            document.getElementById('weekCount').textContent = weekCount;
+        }
+
+        function renderApplications() {
+            const tbody = document.getElementById('tableBody');
+            const table = document.getElementById('applicationsTable');
+            const noApps = document.getElementById('noApplications');
+
+            if (filteredApplications.length === 0) {
+                table.style.display = 'none';
+                noApps.style.display = 'block';
+                return;
+            }
+
+            table.style.display = 'table';
+            noApps.style.display = 'none';
+
+            tbody.innerHTML = filteredApplications.map(app => {
+                const date = new Date(app.submittedAt || app.submissionDate);
+                const formattedDate = date.toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const fullName = `${app.firstName || ''} ${app.lastName || ''}`.trim() || 'N/A';
+                const email = app.email || 'N/A';
+                const phone = app.cellPhone || app.homePhone || 'N/A';
+                const moveIn = app.desiredMoveIn ? new Date(app.desiredMoveIn).toLocaleDateString('en-US', { 
+                    year: 'numeric', 
+                    month: 'short', 
+                    day: 'numeric'
+                }) : 'N/A';
+
+                return `
+                    <tr>
+                        <td>${formattedDate}</td>
+                        <td><strong>${fullName}</strong></td>
+                        <td>
+                            ${email}<br>
+                            <small style="color: #666;">${phone}</small>
+                        </td>
+                        <td>${moveIn}</td>
+                        <td>
+                            <a href="view-application.html?file=${encodeURIComponent(app.filename)}" class="view-btn">
+                                👁️ View
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function filterApplications() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            filteredApplications = applications.filter(app => {
+                const fullName = `${app.firstName || ''} ${app.lastName || ''}`.toLowerCase();
+                const email = (app.email || '').toLowerCase();
+                const phone = (app.cellPhone || app.homePhone || '').toLowerCase();
+                
+                return fullName.includes(searchTerm) || 
+                       email.includes(searchTerm) || 
+                       phone.includes(searchTerm);
+            });
+
+            sortApplications();
+            renderApplications();
+        }
+
+        function sortApplications() {
+            const sortBy = document.getElementById('sortSelect').value;
+
+            filteredApplications.sort((a, b) => {
+                switch(sortBy) {
+                    case 'date-desc':
+                        return new Date(b.submittedAt || b.submissionDate) - new Date(a.submittedAt || a.submissionDate);
+                    case 'date-asc':
+                        return new Date(a.submittedAt || a.submissionDate) - new Date(b.submittedAt || b.submissionDate);
+                    case 'name-asc':
+                        return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+                    case 'name-desc':
+                        return `${b.firstName} ${b.lastName}`.localeCompare(`${a.firstName} ${a.lastName}`);
+                    default:
+                        return 0;
+                }
+            });
+        }
+
+        // Event listeners
+        document.getElementById('searchInput').addEventListener('input', filterApplications);
+        document.getElementById('sortSelect').addEventListener('change', filterApplications);
+
+        // Load applications on page load
+        loadApplications();
+
+        // Auto-refresh every 30 seconds
+        setInterval(loadApplications, 30000);
+    </script>
+</body>
+</html>

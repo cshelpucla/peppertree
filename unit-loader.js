@@ -111,7 +111,6 @@
         document.getElementById('securityDeposit').textContent = data.leaseInfo.securityDeposit;
         document.getElementById('leaseTerm').textContent = data.leaseInfo.leaseTerm;
         document.getElementById('availability').textContent = data.leaseInfo.availability;
-        document.getElementById('pets').textContent = data.leaseInfo.pets;
         document.getElementById('leaseUnitNumber').textContent = unit.unitNumber;
         
         // CTA section

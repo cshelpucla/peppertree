@@ -110,7 +110,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
+    padding: 15px 140px 15px 20px;
 }
 
 .nav-brand {
@@ -2794,6 +2794,10 @@ h1, h2, h3, h4, h5, h6 {
 @media (max-width: 968px) {
     .container {
         padding: 0 20px;
+    }
+    
+    .navbar .container {
+        padding: 15px 100px 15px 20px;
     }
     
     .nav-menu {

@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Application - PepperTree Townhomes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .app-container {
+            max-width: 900px;
+            margin: 1rem auto;
+            padding: 1rem;
+            background: white;
+        }
+
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #2c5530;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .app-header h1 {
+            color: #2c5530;
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .btn-secondary {
+            padding: 0.5rem 1rem;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-print {
+            padding: 0.5rem 1rem;
+            background: #4a7c59;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .btn-print:hover {
+            background: #2c5530;
+        }
+
+        .submission-info {
+            background: #f8f9fa;
+            padding: 0.75rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .info-item {
+            font-size: 0.8rem;
+        }
+
+        .info-item strong {
+            display: block;
+            color: #2c5530;
+            margin-bottom: 0.2rem;
+        }
+
+        .section {
+            margin-bottom: 1rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .section-header {
+            background: #2c5530;
+            color: white;
+            padding: 0.6rem 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .section-content {
+            padding: 0.75rem;
+        }
+
+        .field-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .field {
+            margin-bottom: 0.5rem;
+        }
+
+        .field-label {
+            font-size: 0.7rem;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-bottom: 0.2rem;
+        }
+
+        .field-value {
+            font-size: 0.9rem;
+            color: #333;
+            padding: 0.4rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .field-value:empty::before {
+            content: '—';
+            color: #999;
+        }
+
+        .subsection {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .subsection-title {
+            font-weight: 600;
+            color: #2c5530;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #666;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+        }
+
+        @media print {
+            .app-actions,
+            .navbar {
+                display: none !important;
+            }
+
+            .app-container {
+                margin: 0;
+                padding: 0.5rem;
+            }
+
+            .section {
+                page-break-inside: avoid;
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 0.75rem;
+                margin: 0.5rem auto;
+            }
+            
+            .field-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .app-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">PepperTree Townhomes</a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="neighborhood.html">Neighborhood</a></li>
+                <li><a href="available.html">Available Now</a></li>
+                <li><a href="applications-list.html" class="active">Applications</a></li>
+                <li><a href="rental-application-form.html">Apply Now</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="app-container" style="margin-top: 80px;">
+        <div class="app-header">
+            <h1>📋 Application Details</h1>
+            <div class="app-actions">
+                <a href="applications-list.html" class="btn-secondary">← Back to List</a>
+                <button onclick="window.print()" class="btn-print">🖨️ Print</button>
+            </div>
+        </div>
+
+        <div id="loadingContainer" class="loading">Loading application...</div>
+        <div id="errorContainer"></div>
+        <div id="applicationContent" style="display: none;"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        async function checkPageAccess() {
+            try {
+                const response = await fetch('auth.php');
+                const data = await response.json();
+                
+                if (!data.authenticated) {
+                    window.location.href = 'index.html';
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error('Auth check failed:', error);
+                window.location.href = 'index.html';
+                return false;
+            }
+        }
+
+        async function loadApplication() {
+            // Check authentication first
+            const hasAccess = await checkPageAccess();
+            if (!hasAccess) return;
+            
+            const urlParams = new URLSearchParams(window.location.search);
+            const filename = urlParams.get('file');
+
+            if (!filename) {
+                showError('No application file specified');
+                return;
+            }
+
+            try {
+                const response = await fetch(`get_application.php?file=${encodeURIComponent(filename)}`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                
+                if (data.success) {
+                    renderApplication(data.application);
+                    document.getElementById('loadingContainer').style.display = 'none';
+                    document.getElementById('applicationContent').style.display = 'block';
+                } else {
+                    throw new Error(data.message || 'Failed to load application');
+                }
+            } catch (error) {
+                console.error('Error loading application:', error);
+                showError(error.message);
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('loadingContainer').style.display = 'none';
+            document.getElementById('errorContainer').innerHTML = `
+                <div class="error-message">
+                    <h3>⚠️ Error Loading Application</h3>
+                    <p>${message}</p>
+                    <a href="applications-list.html" class="btn-secondary" style="margin-top: 1rem;">← Back to List</a>
+                </div>
+            `;
+        }
+
+        function renderApplication(app) {
+            const container = document.getElementById('applicationContent');
+            
+            // Submission Info
+            const submittedAt = new Date(app.submittedAt || app.submissionDate);
+            const formattedDate = submittedAt.toLocaleString('en-US', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            let html = `
+                <div class="submission-info">
+                    <div class="info-item">
+                        <strong>Submitted On</strong>
+                        ${formattedDate}
+                    </div>
+                    <div class="info-item">
+                        <strong>Application File</strong>
+                        ${app._filename || 'N/A'}
+                    </div>
+                    <div class="info-item">
+                        <strong>IP Address</strong>
+                        ${app.submittedFrom || 'N/A'}
+                    </div>
+                </div>
+            `;
+
+            // Personal Information
+            html += createSection('👤 Personal Information', [
+                { label: 'First Name', value: app.firstName },
+                { label: 'Middle Name', value: app.middleName },
+                { label: 'Last Name', value: app.lastName },
+                { label: 'Date of Birth', value: app.dateOfBirth },
+                { label: 'Social Security #', value: app.socialSecurity },
+                { label: 'Driver\'s License #', value: app.driversLicense },
+                { label: 'DL State', value: app.dlState },
+                { label: 'Gender', value: app.gender },
+                { label: 'Marital Status', value: app.maritalStatus }
+            ]);
+
+            // Contact Information
+            html += createSection('📱 Contact Information', [
+                { label: 'Cell Phone', value: app.cellPhone },
+                { label: 'Home Phone', value: app.homePhone },
+                { label: 'Email', value: app.email },
+                { label: 'Desired Move-In Date', value: app.desiredMoveIn }
+            ]);
+
+            // Current Address
+            html += createSection('🏠 Current Address', [
+                { label: 'Street Address', value: app.currentAddress },
+                { label: 'City', value: app.currentCity },
+                { label: 'State', value: app.currentState },
+                { label: 'ZIP', value: app.currentZip },
+                { label: 'Move-In Date', value: app.currentMoveIn },
+                { label: 'Monthly Rent/Mortgage', value: app.currentRent },
+                { label: 'Reason for Moving', value: app.reasonMoving },
+                { label: 'Landlord Name', value: app.managementName },
+                { label: 'Landlord Phone', value: app.managementPhone }
+            ]);
+
+            // Previous Address
+            if (app.prevAddress || app.prevCity) {
+                html += createSection('🏘️ Previous Address', [
+                    { label: 'Street Address', value: app.prevAddress },
+                    { label: 'City', value: app.prevCity },
+                    { label: 'State', value: app.prevState },
+                    { label: 'ZIP', value: app.prevZip },
+                    { label: 'Move-In Date', value: app.prevMoveIn },
+                    { label: 'Move-Out Date', value: app.prevMoveOut },
+                    { label: 'Monthly Rent', value: app.prevRent },
+                    { label: 'Landlord Name', value: app.prevManagementName },
+                    { label: 'Landlord Phone', value: app.prevManagementPhone }
+                ]);
+            }
+
+            // Other Occupants
+            const occupants = [];
+            for (let i = 1; i <= 4; i++) {
+                if (app[`occupant${i}Name`]) {
+                    occupants.push({
+                        name: app[`occupant${i}Name`],
+                        dob: app[`occupant${i}DOB`],
+                        relationship: app[`occupant${i}Relationship`]
+                    });
+                }
+            }
+            if (occupants.length > 0) {
+                let occupantsHtml = '<div class="section-content"><div class="field-grid">';
+                occupants.forEach((occ, idx) => {
+                    occupantsHtml += `
+                        <div class="subsection">
+                            <div class="subsection-title">Occupant ${idx + 1}</div>
+                            ${createField('Name', occ.name)}
+                            ${createField('Date of Birth', occ.dob)}
+                            ${createField('Relationship', occ.relationship)}
+                        </div>
+                    `;
+                });
+                occupantsHtml += '</div></div>';
+                html += `<div class="section"><div class="section-header">👥 Other Occupants</div>${occupantsHtml}</div>`;
+            }
+
+            // Employment
+            html += createSection('💼 Employment Information', [
+                { label: 'Employer', value: app.employer },
+                { label: 'Position/Title', value: app.position },
+                { label: 'Employer Address', value: app.employerAddress },
+                { label: 'Employer Phone', value: app.employerPhone },
+                { label: 'Employment Start Date', value: app.employmentStart },
+                { label: 'Monthly Income', value: app.monthlyIncome },
+                { label: 'Supervisor Name', value: app.supervisorName }
+            ]);
+
+            // References
+            const references = [];
+            for (let i = 1; i <= 3; i++) {
+                if (app[`ref${i}Name`]) {
+                    references.push({
+                        name: app[`ref${i}Name`],
+                        relationship: app[`ref${i}Relationship`],
+                        phone: app[`ref${i}Phone`],
+                        email: app[`ref${i}Email`]
+                    });
+                }
+            }
+            if (references.length > 0) {
+                let refsHtml = '<div class="section-content"><div class="field-grid">';
+                references.forEach((ref, idx) => {
+                    refsHtml += `
+                        <div class="subsection">
+                            <div class="subsection-title">Reference ${idx + 1}</div>
+                            ${createField('Name', ref.name)}
+                            ${createField('Relationship', ref.relationship)}
+                            ${createField('Phone', ref.phone)}
+                            ${createField('Email', ref.email)}
+                        </div>
+                    `;
+                });
+                refsHtml += '</div></div>';
+                html += `<div class="section"><div class="section-header">📋 References</div>${refsHtml}</div>`;
+            }
+
+            // Pets
+            if (app.hasPets) {
+                const pets = [];
+                for (let i = 1; i <= 2; i++) {
+                    if (app[`pet${i}Type`]) {
+                        pets.push({
+                            type: app[`pet${i}Type`],
+                            breed: app[`pet${i}Breed`],
+                            color: app[`pet${i}Color`],
+                            weight: app[`pet${i}Weight`],
+                            age: app[`pet${i}Age`],
+                            name: app[`pet${i}Name`]
+                        });
+                    }
+                }
+                let petsHtml = `<div class="section-content">
+                    ${createField('Has Pets', app.hasPets)}
+                    ${createField('Number of Pets', app.petCount)}
+                    <div class="field-grid">`;
+                pets.forEach((pet, idx) => {
+                    petsHtml += `
+                        <div class="subsection">
+                            <div class="subsection-title">Pet ${idx + 1}</div>
+                            ${createField('Type', pet.type)}
+                            ${createField('Breed', pet.breed)}
+                            ${createField('Color', pet.color)}
+                            ${createField('Weight', pet.weight)}
+                            ${createField('Age', pet.age)}
+                            ${createField('Name', pet.name)}
+                        </div>
+                    `;
+                });
+                petsHtml += '</div></div>';
+                html += `<div class="section"><div class="section-header">🐾 Pets</div>${petsHtml}</div>`;
+            }
+
+            // Vehicles
+            const vehicles = [];
+            for (let i = 1; i <= 2; i++) {
+                if (app[`vehicle${i}Make`]) {
+                    vehicles.push({
+                        make: app[`vehicle${i}Make`],
+                        model: app[`vehicle${i}Model`],
+                        year: app[`vehicle${i}Year`],
+                        color: app[`vehicle${i}Color`],
+                        license: app[`vehicle${i}License`],
+                        state: app[`vehicle${i}State`]
+                    });
+                }
+            }
+            if (vehicles.length > 0) {
+                let vehiclesHtml = '<div class="section-content"><div class="field-grid">';
+                vehicles.forEach((veh, idx) => {
+                    vehiclesHtml += `
+                        <div class="subsection">
+                            <div class="subsection-title">Vehicle ${idx + 1}</div>
+                            ${createField('Make', veh.make)}
+                            ${createField('Model', veh.model)}
+                            ${createField('Year', veh.year)}
+                            ${createField('Color', veh.color)}
+                            ${createField('License Plate', veh.license)}
+                            ${createField('State', veh.state)}
+                        </div>
+                    `;
+                });
+                vehiclesHtml += '</div></div>';
+                html += `<div class="section"><div class="section-header">🚗 Vehicle Information</div>${vehiclesHtml}</div>`;
+            }
+
+            // Emergency Contact
+            html += createSection('🚨 Emergency Contact', [
+                { label: 'Name', value: app.emergencyName },
+                { label: 'Relationship', value: app.emergencyRelationship },
+                { label: 'Phone', value: app.emergencyPhone },
+                { label: 'Address', value: app.emergencyAddress }
+            ]);
+
+            // Other Information
+            html += createSection('📝 Other Information', [
+                { label: 'Evicted from Rental Housing?', value: app.evictedRental },
+                { label: 'Landlord Refused to Renew Lease?', value: app.refusedRenewal },
+                { label: 'Outstanding Debt to Landlord?', value: app.landlordDebt },
+                { label: 'Criminal Offense Conviction?', value: app.criminalOffense },
+                { label: 'Part of Plea Agreement?', value: app.pleaAgreement },
+                { label: 'Involved in Sex Related Crime?', value: app.sexCrime },
+                { label: 'Listed on Sex Offender Registry?', value: app.sexOffenderRegistry },
+                { label: 'Why Vacating Current Residence?', value: app.vacatingReason, fullWidth: true },
+                { label: 'Given Written Notice to Vacate?', value: app.givenNotice },
+                { label: 'How Did You Hear About Us?', value: app.howHeard, fullWidth: true }
+            ]);
+
+            // Signature
+            html += createSection('✍️ Signature', [
+                { label: 'Print Name', value: app.printName },
+                { label: 'Signature', value: app.signature },
+                { label: 'Date', value: app.signatureDate }
+            ]);
+
+            container.innerHTML = html;
+        }
+
+        function createSection(title, fields) {
+            let html = `
+                <div class="section">
+                    <div class="section-header">${title}</div>
+                    <div class="section-content">
+                        <div class="field-grid">
+            `;
+
+            fields.forEach(field => {
+                if (field.fullWidth) {
+                    html += `<div style="grid-column: 1 / -1;">${createField(field.label, field.value)}</div>`;
+                } else {
+                    html += createField(field.label, field.value);
+                }
+            });
+
+            html += `
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            return html;
+        }
+
+        function createField(label, value) {
+            return `
+                <div class="field">
+                    <div class="field-label">${label}</div>
+                    <div class="field-value">${value || ''}</div>
+                </div>
+            `;
+        }
+
+        // Load application on page load
+        loadApplication();
+    </script>
+
+    <!-- Auth Button -->
+    <button id="authButton">🔐 Sign In</button>
+
+    <!-- Admin Menu -->
+    <div id="adminMenu">
+        <button onclick="openUserManagement()">👥 Manage Users</button>
+        <button onclick="handleLogout()">🚪 Logout</button>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Admin Login</h2>
+                <button class="modal-close" onclick="closeLoginModal()">×</button>
+            </div>
+            <form onsubmit="handleLogin(event)">
+                <div class="error-message" id="loginError"></div>
+                <div class="form-group">
+                    <label for="loginUsername">Username</label>
+                    <input type="text" id="loginUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeLoginModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Sign In</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Management Modal -->
+    <div id="userManagementModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>User Management</h2>
+                <button class="modal-close" onclick="closeUserManagement()">×</button>
+            </div>
+            <div class="user-management-header">
+                <div>
+                    <p style="color: #666; margin: 0;">Manage administrator accounts</p>
+                </div>
+                <button class="btn-add-user" onclick="openAddUserModal()">➕ Add User</button>
+            </div>
+            <table class="users-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Role</th>
+                        <th>Created</th>
+                        <th>Last Login</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Users will be loaded here -->
+                </tbody>
+            </table>
+            <div class="modal-actions" style="margin-top: 25px;">
+                <button class="btn btn-secondary" onclick="closeUserManagement()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add User Modal -->
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New User</h2>
+                <button class="modal-close" onclick="closeAddUserModal()">×</button>
+            </div>
+            <form id="addUserForm" onsubmit="handleAddUser(event)">
+                <div class="error-message" id="addUserError"></div>
+                <div class="form-group">
+                    <label for="newUsername">Username *</label>
+                    <input type="text" id="newUsername" required minlength="3">
+                </div>
+                <div class="form-group">
+                    <label for="newEmail">Email *</label>
+                    <input type="email" id="newEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Password *</label>
+                    <input type="password" id="newPassword" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="newRole">Role *</label>
+                    <select id="newRole" required>
+                        <option value="administrator">Administrator</option>
+                        <option value="user">User</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeAddUserModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save User</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="admin-auth.js"></script>
+</body>
+</html>

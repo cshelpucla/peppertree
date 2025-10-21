@@ -59,29 +59,27 @@
       ]
     },
     {
-      "id": "730a",
-      "unitNumber": "730A",
-      "title": "Unit 730A - Spacious 3 Bedroom Townhome",
+      "id": "161d",
+      "unitNumber": "161D",
+      "title": "Unit 161D - Spacious 3 Bedroom Townhome",
       "bedrooms": 3,
       "bathrooms": 2,
-      "price": 1295,
+      "price": 1145,
       "featured": false,
       "status": "available",
       "bannerTag": "🎉 AVAILABLE NOW",
-      "bannerTitle": "Unit 730A - Spacious 3 Bedroom!",
+      "bannerTitle": "Unit 161D - Spacious 3 Bedroom!",
       "bannerSubtitle": "Comfortable living with great amenities",
       "layoutDescription": "2 bedrooms upstairs, 1 downstairs",
       "bathroomDescription": "2 full baths - 1 upstairs, 1 downstairs",
       "specialTag": "Great value!",
       "description": [
-        "Welcome to Unit 730A, a well-designed 3-bedroom, 2-bathroom townhome perfect for families or those who need extra space. This unit offers comfortable living spaces with practical amenities in a convenient location.",
+        "Welcome to Unit 161D, a well-designed 3-bedroom, 2-bathroom townhome perfect for families or those who need extra space. This unit offers comfortable living spaces with practical amenities in a convenient location.",
         "Featuring a spacious floor plan, this townhome includes three generously sized bedrooms with two upstairs and one on the main level for versatility. Both full bathrooms are well-appointed with modern fixtures. The living area provides ample space for relaxation and entertaining, while the kitchen offers all the essentials for daily living. Enjoy the benefits of townhome living with the privacy and convenience of your own space."
       ],
       "photos": [
         "730_750_Outside.jpg",
         "730_750_Outside2.jpg",
-        "730_Outside.jpg",
-        "730_OutsideBldg.jpg",
         "unit-living.jpg",
         "unit-kitchen.jpg",
         "unit-bedroom.jpg"
@@ -89,8 +87,6 @@
       "photoDescriptions": [
         "Building Exterior",
         "Exterior View 2",
-        "Unit Exterior",
-        "Building View",
         "Living Room",
         "Kitchen",
         "Bedroom"
@@ -150,20 +146,16 @@
         "Kitchen with essentials",
         "Laundry hookups",
         "Storage space",
-        "Two-story townhome",
-        "Private entrance"
+        "Two-story townhome"
       ]
     }
   ],
   "communityAmenities": [
-    "Gated community",
     "On-site management",
-    "Pet-friendly",
     "Ample parking",
     "Maintenance service",
     "Secure entry",
-    "Professional landscaping",
-    "24/7 emergency maintenance"
+    "Professional landscaping"    
   ],
   "locationFeatures": [
     "Just off Highway 198",
@@ -178,7 +170,6 @@
   "leaseInfo": {
     "securityDeposit": "Contact for details",
     "leaseTerm": "12 months preferred",
-    "availability": "Immediately",
-    "pets": "Welcome with deposit"
+    "availability": "Immediately"
   }
 }

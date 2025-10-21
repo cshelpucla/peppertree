@@ -32,6 +32,12 @@ async function getUnitById(unitId) {
 function updateUnitCard(unitCard, unit) {
     if (!unitCard || !unit) return;
     
+    // Update unit number/title
+    const unitTitleElement = unitCard.querySelector('[data-unit-title]');
+    if (unitTitleElement) {
+        unitTitleElement.textContent = `Unit ${unit.unitNumber}`;
+    }
+    
     // Update price
     const priceElement = unitCard.querySelector('[data-price]');
     if (priceElement) {
@@ -62,12 +68,6 @@ function updateUnitCard(unitCard, unit) {
         const fullDesc = unit.description[0];
         const shortDesc = fullDesc.length > 100 ? fullDesc.substring(0, 100) + '...' : fullDesc;
         descElement.textContent = shortDesc;
-    }
-    
-    // Update unit number/title
-    const unitTitleElement = unitCard.querySelector('[data-unit-title]');
-    if (unitTitleElement) {
-        unitTitleElement.textContent = unit.unitNumber;
     }
 }
 
@@ -190,7 +190,7 @@ function getUnitIdFromPage() {
     
     // Check if page filename contains unit ID
     const pathname = window.location.pathname;
-    const match = pathname.match(/available-(720c|730a|151a)/i);
+    const match = pathname.match(/available-(720c|161d|151a)/i);
     if (match) return match[1];
     
     return null;

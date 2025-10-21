@@ -1,0 +1,31 @@
+{
+    "users": [
+        {
+            "id": "1",
+            "username": "admin",
+            "password": "admin123",
+            "email": "admin@peppertreetownhomes.com",
+            "role": "administrator",
+            "createdAt": "2025-10-20T00:00:00-04:00",
+            "lastLogin": "2025-10-20T21:19:57-07:00"
+        },
+        {
+            "id": "2",
+            "username": "arovinsk",
+            "password": "admin123",
+            "email": "arovinsk@sprynet.com",
+            "role": "administrator",
+            "createdAt": "2025-10-20T00:00:00-04:00",
+            "lastLogin": "2025-10-20T22:12:14-07:00"
+        },
+        {
+            "id": "3",
+            "username": "miriam",
+            "password": "admin123",
+            "email": "ortega_miriam@yahoo.com",
+            "role": "administrator",
+            "createdAt": "2025-10-20T21:30:50-07:00",
+            "lastLogin": null
+        }
+    ]
+}

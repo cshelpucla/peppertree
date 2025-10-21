@@ -631,6 +631,67 @@
                 formFields[field.name].value = this.value;
             });
             
+            // Add phone and SSN formatting
+            if (field.type === 'tel') {
+                input.addEventListener('input', function(e) {
+                    const cursorPosition = this.selectionStart;
+                    const oldLength = this.value.length;
+                    
+                    // Format phone number
+                    const digits = this.value.replace(/\D/g, '');
+                    if (digits.length <= 3) {
+                        this.value = digits;
+                    } else if (digits.length <= 6) {
+                        this.value = `(${digits.substring(0, 3)}) ${digits.substring(3)}`;
+                    } else {
+                        this.value = `(${digits.substring(0, 3)}) ${digits.substring(3, 6)}-${digits.substring(6, 10)}`;
+                    }
+                    
+                    const newLength = this.value.length;
+                    const diff = newLength - oldLength;
+                    
+                    if (diff > 0) {
+                        this.selectionStart = this.selectionEnd = cursorPosition + diff;
+                    } else {
+                        this.selectionStart = this.selectionEnd = cursorPosition;
+                    }
+                    
+                    // Update form fields
+                    if (!formFields[field.name]) formFields[field.name] = {};
+                    formFields[field.name].value = this.value;
+                });
+            }
+            
+            if (field.name === 'Social Security') {
+                input.addEventListener('input', function(e) {
+                    const cursorPosition = this.selectionStart;
+                    const oldLength = this.value.length;
+                    
+                    // Format SSN
+                    const digits = this.value.replace(/\D/g, '');
+                    if (digits.length <= 3) {
+                        this.value = digits;
+                    } else if (digits.length <= 5) {
+                        this.value = `${digits.substring(0, 3)}-${digits.substring(3)}`;
+                    } else {
+                        this.value = `${digits.substring(0, 3)}-${digits.substring(3, 5)}-${digits.substring(5, 9)}`;
+                    }
+                    
+                    const newLength = this.value.length;
+                    const diff = newLength - oldLength;
+                    
+                    if (diff > 0) {
+                        this.selectionStart = this.selectionEnd = cursorPosition + diff;
+                    } else {
+                        this.selectionStart = this.selectionEnd = cursorPosition;
+                    }
+                    
+                    // Update form fields
+                    if (!formFields[field.name]) formFields[field.name] = {};
+                    formFields[field.name].value = this.value;
+                });
+            }
+            
             // Restore saved value if any
             if (formFields[field.name] && formFields[field.name].value) {
                 input.value = formFields[field.name].value;
