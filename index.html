@@ -26,6 +26,7 @@
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="neighborhood.html">Neighborhood</a></li>
                 <li><a href="applications-list.html">Applications</a></li>
+                <li><a href="appointments-list.html">Appointments</a></li>
                 <li><a href="rental-application-form.html">Apply Now</a></li>
                 <li><a href="schedule.html">Schedule</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -140,6 +141,79 @@
                         </div>
                     </div>
                 </div>            </div>
+        </div>
+    </section>
+
+    <!-- Virtual Tours Section -->
+    <section style="background: linear-gradient(180deg, #f8f9f7 0%, #f0f2ed 100%); padding: 5rem 0;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: 3rem;">
+                <span style="display: inline-block; background: #2c5530; color: white; padding: 0.5rem 1.5rem; border-radius: 30px; font-size: 0.85rem; font-weight: 600; margin-bottom: 1rem;">🎬 EXPLORE FROM HOME</span>
+                <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; margin: 0 0 1rem 0; color: #2c5530; font-weight: 700;">Virtual Tours Available</h2>
+                <p style="font-size: 1.1rem; color: #666; max-width: 600px; margin: 0 auto;">Watch detailed video tours of our units. Get a complete view of every room before you visit!</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
+                <!-- Downstairs Tour Card -->
+                <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.3s ease; cursor: pointer;" 
+                     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.15)'"
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.08)'">
+                    <div style="background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%); padding: 2rem; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 160px; position: relative; overflow: hidden;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎥</div>
+                        <h3 style="margin: 0.5rem 0; font-size: 1.5rem; font-family: 'Playfair Display', serif;">Downstairs Tour</h3>
+                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">~24 seconds</p>
+                        <div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent); pointer-events: none;"></div>
+                    </div>
+                    <div style="padding: 1.5rem; text-align: center;">
+                        <p style="color: #666; margin: 0 0 1rem 0; font-size: 0.95rem;">Explore our spacious living areas, modern kitchens, and bright dining spaces</p>
+                        <button onclick="openVideoModal('videos/730C_DownStairs.mp4', '🎥 Downstairs Tour'); return false;" style="background: #2c5530; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='#1a3620'; this.style.transform='scale(1.05)'"
+                                onmouseout="this.style.background='#2c5530'; this.style.transform='scale(1)'">
+                            ▶ Watch Tour
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Upstairs Tour Card -->
+                <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.3s ease; cursor: pointer;"
+                     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.15)'"
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.08)'">
+                    <div style="background: linear-gradient(135deg, #4a7c59 0%, #5a9168 100%); padding: 2rem; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 160px; position: relative; overflow: hidden;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">🎬</div>
+                        <h3 style="margin: 0.5rem 0; font-size: 1.5rem; font-family: 'Playfair Display', serif;">Upstairs Tour</h3>
+                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">~33 seconds</p>
+                        <div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent); pointer-events: none;"></div>
+                    </div>
+                    <div style="padding: 1.5rem; text-align: center;">
+                        <p style="color: #666; margin: 0 0 1rem 0; font-size: 0.95rem;">View our comfortable bedrooms, luxurious bathrooms, and private spaces</p>
+                        <button onclick="openVideoModal('videos/730C_Upstairs.mp4', '🎬 Upstairs Tour'); return false;" style="background: #4a7c59; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem; transition: all 0.3s ease;"
+                                onmouseover="this.style.background='#3a6247'; this.style.transform='scale(1.05)'"
+                                onmouseout="this.style.background='#4a7c59'; this.style.transform='scale(1)'">
+                            ▶ Watch Tour
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Schedule Tour Card -->
+                <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.08); transition: all 0.3s ease; cursor: pointer;"
+                     onmouseover="this.style.transform='translateY(-8px)'; this.style.boxShadow='0 12px 30px rgba(0,0,0,0.15)'"
+                     onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.08)'">
+                    <div style="background: linear-gradient(135deg, #d4a574 0%, #c9915f 100%); padding: 2rem; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 160px; position: relative; overflow: hidden;">
+                        <div style="font-size: 3rem; margin-bottom: 0.5rem;">📅</div>
+                        <h3 style="margin: 0.5rem 0; font-size: 1.5rem; font-family: 'Playfair Display', serif;">In-Person Tour</h3>
+                        <p style="margin: 0; font-size: 0.9rem; opacity: 0.9;">Real experience</p>
+                        <div style="position: absolute; top: 0; right: 0; bottom: 0; left: 0; background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.1), transparent); pointer-events: none;"></div>
+                    </div>
+                    <div style="padding: 1.5rem; text-align: center;">
+                        <p style="color: #666; margin: 0 0 1rem 0; font-size: 0.95rem;">Ready to see it in person? Schedule a tour with our friendly leasing team</p>
+                        <a href="schedule.html" style="background: #d4a574; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 0.95rem; text-decoration: none; display: inline-block; transition: all 0.3s ease;"
+                           onmouseover="this.style.background='#b8944a'; this.style.transform='scale(1.05)'"
+                           onmouseout="this.style.background='#d4a574'; this.style.transform='scale(1)'">
+                            📅 Schedule Now
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 

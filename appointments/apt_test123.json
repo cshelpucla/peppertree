@@ -1,0 +1,31 @@
+{
+  "id": "test123",
+  "submitted_at": "2025-10-22 00:40:00",
+  "contact": {
+    "name": "John Doe",
+    "email": "john@example.com",
+    "phone": "(555) 123-4567"
+  },
+  "tour_details": {
+    "unit": "720c",
+    "unit_text": "Unit 720C - 3BR Premium"
+  },
+  "time_slots": [
+    {
+      "priority": 1,
+      "date": "2025-10-25",
+      "time_hour": "10",
+      "time_period": "AM",
+      "formatted": "Friday, October 25, 2025 at 10:00 AM"
+    },
+    {
+      "priority": 2,
+      "date": "2025-10-26",
+      "time_hour": "2",
+      "time_period": "PM",
+      "formatted": "Saturday, October 26, 2025 at 2:00 PM"
+    }
+  ],
+  "notes": "Looking forward to viewing this unit!",
+  "status": "pending"
+}

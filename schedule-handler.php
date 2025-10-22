@@ -116,10 +116,73 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers .= "MIME-Version: 1.0\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
     
+    // Create appointments directory if it doesn't exist
+    $appointmentsDir = __DIR__ . '/appointments';
+    if (!file_exists($appointmentsDir)) {
+        mkdir($appointmentsDir, 0755, true);
+    }
+    
+    // Generate unique appointment ID
+    $appointmentId = uniqid('apt_', true);
+    $timestamp = date('Y-m-d H:i:s');
+    
+    // Prepare appointment data for JSON storage
+    $appointmentData = [
+        'id' => $appointmentId,
+        'submitted_at' => $timestamp,
+        'contact' => [
+            'name' => $name,
+            'email' => $email,
+            'phone' => $phone
+        ],
+        'tour_details' => [
+            'unit' => $unit,
+            'unit_text' => $unitText
+        ],
+        'time_slots' => [],
+        'notes' => $notes,
+        'status' => 'pending'
+    ];
+    
+    // Add time slots to appointment data
+    if ($date1 && $time1_hour && $time1_period) {
+        $appointmentData['time_slots'][] = [
+            'priority' => 1,
+            'date' => $date1,
+            'time_hour' => $time1_hour,
+            'time_period' => $time1_period,
+            'formatted' => date('l, F j, Y', strtotime($date1)) . " at {$time1_hour}:00 {$time1_period}"
+        ];
+    }
+    
+    if ($date2 && $time2_hour && $time2_period) {
+        $appointmentData['time_slots'][] = [
+            'priority' => 2,
+            'date' => $date2,
+            'time_hour' => $time2_hour,
+            'time_period' => $time2_period,
+            'formatted' => date('l, F j, Y', strtotime($date2)) . " at {$time2_hour}:00 {$time2_period}"
+        ];
+    }
+    
+    if ($date3 && $time3_hour && $time3_period) {
+        $appointmentData['time_slots'][] = [
+            'priority' => 3,
+            'date' => $date3,
+            'time_hour' => $time3_hour,
+            'time_period' => $time3_period,
+            'formatted' => date('l, F j, Y', strtotime($date3)) . " at {$time3_hour}:00 {$time3_period}"
+        ];
+    }
+    
+    // Save appointment to JSON file
+    $appointmentFile = $appointmentsDir . '/' . $appointmentId . '.json';
+    $jsonSaved = file_put_contents($appointmentFile, json_encode($appointmentData, JSON_PRETTY_PRINT));
+    
     // Send email
     $mailSent = mail($to, $subject, $message, $headers);
     
-    if ($mailSent) {
+    if ($mailSent || $jsonSaved) {
         // Also send confirmation email to the applicant
         $confirmSubject = "Tour Request Received - PepperTree Townhomes";
         $confirmMessage = "Dear {$name},\n\n";
@@ -144,7 +207,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         echo json_encode([
             'success' => true, 
-            'message' => 'Your tour request has been submitted successfully! We will contact you shortly to confirm your appointment.'
+            'message' => 'Your tour request has been submitted successfully! We will contact you shortly to confirm your appointment.',
+            'appointment_id' => $appointmentId
         ]);
     } else {
         echo json_encode([

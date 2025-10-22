@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tour Appointments - PepperTree Townhomes</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="admin-auth.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="nav-brand">PepperTree Townhomes</a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="neighborhood.html">Neighborhood</a></li>
+                <li><a href="applications-list.html">Applications</a></li>
+                <li><a href="appointments-list.html" class="active">Appointments</a></li>
+                <li><a href="rental-application-form.html">Apply Now</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="#" id="authNavLink" class="auth-nav-link">Sign In</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main style="margin-top: 100px; padding: 2rem 0; min-height: calc(100vh - 200px);">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+                <h1 style="font-family: 'Playfair Display', serif; color: #2c5530; font-size: 2.5rem;">Tour Appointments</h1>
+                <div id="appointmentCount" style="background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%); color: white; padding: 0.5rem 1.5rem; border-radius: 25px; font-weight: 600;">
+                    Loading...
+                </div>
+            </div>
+
+            <!-- Admin Only Message -->
+            <div id="adminRequired" class="admin-only" style="display: none; background: #fff3cd; border: 2px solid #ffc107; border-radius: 10px; padding: 2rem; text-align: center; margin-bottom: 2rem;">
+                <h2 style="color: #856404; margin-bottom: 1rem;">🔒 Admin Access Required</h2>
+                <p style="color: #856404; margin-bottom: 1.5rem;">Please sign in to view tour appointments.</p>
+                <button onclick="showAuthModal()" style="background: #2c5530; color: white; border: none; padding: 0.75rem 2rem; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer;">
+                    Sign In
+                </button>
+            </div>
+
+            <!-- Appointments Table -->
+            <div id="appointmentsContainer" class="admin-only" style="display: none;">
+                <!-- Filter Controls -->
+                <div style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); margin-bottom: 2rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Search</label>
+                            <input type="text" id="searchInput" placeholder="Name, email, or phone..." style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem;">
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Status</label>
+                            <select id="statusFilter" style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; background: white;">
+                                <option value="">All Statuses</option>
+                                <option value="pending">Pending</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="completed">Completed</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Sort By</label>
+                            <select id="sortBy" style="width: 100%; padding: 0.75rem; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 0.95rem; background: white;">
+                                <option value="date_desc">Newest First</option>
+                                <option value="date_asc">Oldest First</option>
+                                <option value="name_asc">Name (A-Z)</option>
+                                <option value="name_desc">Name (Z-A)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Appointments Table -->
+                <div style="background: white; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); overflow: hidden;">
+                    <table id="appointmentsTable" style="width: 100%; border-collapse: collapse;">
+                        <thead>
+                            <tr style="background: linear-gradient(135deg, #2c5530 0%, #4a7c59 100%); color: white;">
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Name</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Email</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Phone</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">First Choice Date</th>
+                                <th style="padding: 1rem; text-align: left; font-weight: 600;">Unit</th>
+                                <th style="padding: 1rem; text-align: center; font-weight: 600;">Status</th>
+                                <th style="padding: 1rem; text-align: center; font-weight: 600;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="appointmentsTableBody">
+                            <tr>
+                                <td colspan="7" style="padding: 3rem; text-align: center; color: #666;">
+                                    Loading appointments...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- No Results Message -->
+                <div id="noResults" style="display: none; background: white; border-radius: 10px; padding: 3rem; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                    <p style="color: #666; font-size: 1.1rem;">No appointments found matching your criteria.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>PepperTree Townhomes</h3>
+                    <p>770 E Elm Ave<br>Coalinga, CA 93210</p>
+                    <p>Phone: (559) 935-2200<br>Email: rent@peppertreetownhomes.com</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="neighborhood.html">Neighborhood</a></li>
+                        <li><a href="schedule.html">Schedule Tour</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Office Hours</h4>
+                    <div class="info-item">
+                        <strong>Monday - Friday:</strong> 9:00 AM - 6:00 PM<br>
+                        <strong>Saturday:</strong> 10:00 AM - 4:00 PM<br>
+                        <strong>Sunday:</strong> Closed
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 PepperTree Townhomes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script src="admin-auth.js"></script>
+    <script>
+        let allAppointments = [];
+
+        // Load appointments
+        async function loadAppointments() {
+            try {
+                const response = await fetch('get-appointments.php');
+                const data = await response.json();
+                
+                if (data.success) {
+                    allAppointments = data.appointments;
+                    displayAppointments(allAppointments);
+                    updateCount(allAppointments.length);
+                } else {
+                    document.getElementById('appointmentsTableBody').innerHTML = `
+                        <tr>
+                            <td colspan="7" style="padding: 3rem; text-align: center; color: #e74c3c;">
+                                Error loading appointments: ${data.message}
+                            </td>
+                        </tr>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading appointments:', error);
+                document.getElementById('appointmentsTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="7" style="padding: 3rem; text-align: center; color: #e74c3c;">
+                            Error loading appointments. Please refresh the page.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Display appointments in table
+        function displayAppointments(appointments) {
+            const tbody = document.getElementById('appointmentsTableBody');
+            const noResults = document.getElementById('noResults');
+            const table = document.getElementById('appointmentsTable').parentElement;
+
+            if (appointments.length === 0) {
+                table.style.display = 'none';
+                noResults.style.display = 'block';
+                return;
+            }
+
+            table.style.display = 'block';
+            noResults.style.display = 'none';
+
+            tbody.innerHTML = appointments.map(apt => {
+                const firstSlot = apt.time_slots[0];
+                const statusColors = {
+                    'pending': '#ffc107',
+                    'confirmed': '#28a745',
+                    'completed': '#6c757d',
+                    'cancelled': '#dc3545'
+                };
+                const statusColor = statusColors[apt.status] || '#6c757d';
+
+                return `
+                    <tr style="border-bottom: 1px solid #e0e0e0;">
+                        <td style="padding: 1rem;">${apt.contact.name}</td>
+                        <td style="padding: 1rem;">${apt.contact.email}</td>
+                        <td style="padding: 1rem;">${apt.contact.phone}</td>
+                        <td style="padding: 1rem;">${new Date(firstSlot.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                        <td style="padding: 1rem;">${apt.tour_details.unit || 'No Preference'}</td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <span style="background: ${statusColor}; color: white; padding: 0.25rem 0.75rem; border-radius: 15px; font-size: 0.85rem; font-weight: 600; text-transform: capitalize;">
+                                ${apt.status}
+                            </span>
+                        </td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <a href="view-appointment.html?id=${apt.id}" style="background: #2c5530; color: white; padding: 0.5rem 1rem; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem; display: inline-block;">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Update appointment count
+        function updateCount(count) {
+            document.getElementById('appointmentCount').textContent = `${count} Appointment${count !== 1 ? 's' : ''}`;
+        }
+
+        // Filter and sort appointments
+        function filterAndSort() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const sortBy = document.getElementById('sortBy').value;
+
+            let filtered = allAppointments.filter(apt => {
+                const matchesSearch = !searchTerm || 
+                    apt.contact.name.toLowerCase().includes(searchTerm) ||
+                    apt.contact.email.toLowerCase().includes(searchTerm) ||
+                    apt.contact.phone.includes(searchTerm);
+                
+                const matchesStatus = !statusFilter || apt.status === statusFilter;
+
+                return matchesSearch && matchesStatus;
+            });
+
+            // Sort
+            filtered.sort((a, b) => {
+                switch(sortBy) {
+                    case 'date_desc':
+                        return new Date(b.submitted_at) - new Date(a.submitted_at);
+                    case 'date_asc':
+                        return new Date(a.submitted_at) - new Date(b.submitted_at);
+                    case 'name_asc':
+                        return a.contact.name.localeCompare(b.contact.name);
+                    case 'name_desc':
+                        return b.contact.name.localeCompare(a.contact.name);
+                    default:
+                        return 0;
+                }
+            });
+
+            displayAppointments(filtered);
+            updateCount(filtered.length);
+        }
+
+        // Event listeners for filters
+        document.getElementById('searchInput').addEventListener('input', filterAndSort);
+        document.getElementById('statusFilter').addEventListener('change', filterAndSort);
+        document.getElementById('sortBy').addEventListener('change', filterAndSort);
+
+        // Check authentication and load appointments
+        async function initPage() {
+            await checkAuth();
+            
+            // Wait a bit for auth to complete
+            await new Promise(resolve => setTimeout(resolve, 100));
+            
+            if (window.currentUser && window.currentUser.role === 'admin') {
+                loadAppointments();
+            } else {
+                document.getElementById('appointmentCount').textContent = 'Sign In Required';
+                document.getElementById('appointmentsTableBody').innerHTML = `
+                    <tr>
+                        <td colspan="7" style="padding: 3rem; text-align: center; color: #856404;">
+                            Please sign in as an admin to view appointments.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+        
+        window.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>

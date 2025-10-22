@@ -5,6 +5,7 @@
 
 // Check authentication on page load
 let currentUser = null;
+window.currentUser = null;
 
 async function checkAuth() {
     try {
@@ -13,17 +14,22 @@ async function checkAuth() {
         
         if (data.authenticated) {
             currentUser = data.user;
+            window.currentUser = data.user;
             showLoggedInState();
             showApplicationsLink();
+            showAppointmentsLink();
         } else {
             currentUser = null;
+            window.currentUser = null;
             showSignInState();
             hideApplicationsLink();
+            hideAppointmentsLink();
         }
     } catch (error) {
         console.error('Auth check failed:', error);
         showSignInState();
         hideApplicationsLink();
+        hideAppointmentsLink();
     }
 }
 
@@ -66,6 +72,21 @@ function hideApplicationsLink() {
     });
 }
 
+function showAppointmentsLink() {
+    const appointmentsLinks = document.querySelectorAll('a[href="appointments-list.html"]');
+    appointmentsLinks.forEach(link => {
+        link.style.display = 'inline-block';
+        link.style.setProperty('display', 'inline-block', 'important');
+    });
+}
+
+function hideAppointmentsLink() {
+    const appointmentsLinks = document.querySelectorAll('a[href="appointments-list.html"]');
+    appointmentsLinks.forEach(link => {
+        link.style.setProperty('display', 'none', 'important');
+    });
+}
+
 // Login Modal
 function openLoginModal() {
     const modal = document.getElementById('loginModal');
@@ -104,9 +125,11 @@ async function handleLogin(event) {
         
         if (data.success) {
             currentUser = data.user;
+            window.currentUser = data.user;
             closeLoginModal();
             showLoggedInState();
             showApplicationsLink();
+            showAppointmentsLink();
             showNotification('Logged in successfully!', 'success');
         } else {
             errorDiv.textContent = data.message || 'Invalid credentials';
@@ -122,8 +145,10 @@ async function handleLogout() {
     try {
         await fetch('auth.php', { method: 'DELETE' });
         currentUser = null;
+        window.currentUser = null;
         showSignInState();
         hideApplicationsLink();
+        hideAppointmentsLink();
         closeAdminMenu();
         showNotification('Logged out successfully', 'success');
     } catch (error) {

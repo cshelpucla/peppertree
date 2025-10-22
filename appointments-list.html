@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Submitted Applications - PepperTree Townhomes</title>
+    <title>Tour Appointments - PepperTree Townhomes</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="admin-auth.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        .applications-container {
+        .appointments-container {
             max-width: 1200px;
             margin: 2rem auto;
             padding: 2rem;
@@ -84,7 +84,7 @@
             border-color: #2c5530;
         }
 
-        .applications-table {
+        .appointments-table {
             width: 100%;
             border-collapse: collapse;
             background: white;
@@ -93,49 +93,26 @@
             overflow: hidden;
         }
 
-        .applications-table thead {
+        .appointments-table thead {
             background: #2c5530;
             color: white;
         }
 
-        .applications-table th {
+        .appointments-table th {
             padding: 1rem;
             text-align: left;
             font-weight: 600;
             font-size: 0.9rem;
         }
 
-        .applications-table td {
+        .appointments-table td {
             padding: 1rem;
             border-bottom: 1px solid #f0f0f0;
             font-size: 0.9rem;
         }
 
-        .applications-table tbody tr:hover {
+        .appointments-table tbody tr:hover {
             background: #f8f9fa;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 600;
-        }
-
-        .status-new {
-            background: #e3f2fd;
-            color: #1976d2;
-        }
-
-        .status-reviewed {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-
-        .status-approved {
-            background: #e8f5e9;
-            color: #388e3c;
         }
 
         .view-btn {
@@ -156,7 +133,7 @@
             background: #2c5530;
         }
 
-        .no-applications {
+        .no-appointments {
             text-align: center;
             padding: 3rem;
             color: #666;
@@ -177,12 +154,12 @@
         }
 
         @media (max-width: 768px) {
-            .applications-table {
+            .appointments-table {
                 font-size: 0.85rem;
             }
 
-            .applications-table th,
-            .applications-table td {
+            .appointments-table th,
+            .appointments-table td {
                 padding: 0.75rem 0.5rem;
             }
 
@@ -210,8 +187,8 @@
             <ul class="nav-menu" id="navMenu">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="neighborhood.html">Neighborhood</a></li>
-                <li><a href="applications-list.html" class="active">Applications</a></li>
-                <li><a href="appointments-list.html">Appointments</a></li>
+                <li><a href="applications-list.html">Applications</a></li>
+                <li><a href="appointments-list.html" class="active">Appointments</a></li>
                 <li><a href="rental-application-form.html">Apply Now</a></li>
                 <li><a href="schedule.html">Schedule</a></li>
                 <li><a href="contact.html">Contact</a></li>
@@ -220,11 +197,11 @@
         </div>
     </nav>
 
-    <div class="applications-container" style="margin-top: 80px;">
+    <div class="appointments-container" style="margin-top: 80px;">
         <div class="stats-row">
             <div class="stat-card">
                 <h3 id="totalCount">0</h3>
-                <p>Total Applications</p>
+                <p>Total Appointments</p>
             </div>
             <div class="stat-card">
                 <h3 id="todayCount">0</h3>
@@ -247,15 +224,16 @@
         </div>
 
         <div id="errorContainer"></div>
-        <div id="loadingContainer" class="loading">Loading applications...</div>
+        <div id="loadingContainer" class="loading">Loading appointments...</div>
 
-        <table class="applications-table" id="applicationsTable" style="display: none;">
+        <table class="appointments-table" id="appointmentsTable" style="display: none;">
             <thead>
                 <tr>
                     <th>Date Submitted</th>
-                    <th>Applicant Name</th>
+                    <th>Visitor Name</th>
                     <th>Contact</th>
-                    <th>Move-In Date</th>
+                    <th>Unit</th>
+                    <th>Preferred Times</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -263,9 +241,9 @@
             </tbody>
         </table>
 
-        <div id="noApplications" class="no-applications" style="display: none;">
-            <h3>No Applications Found</h3>
-            <p>There are no submitted applications yet.</p>
+        <div id="noAppointments" class="no-appointments" style="display: none;">
+            <h3>No Appointments Found</h3>
+            <p>There are no tour appointments yet.</p>
         </div>
     </div>
 
@@ -392,16 +370,16 @@
             }
         }
 
-        let applications = [];
-        let filteredApplications = [];
+        let appointments = [];
+        let filteredAppointments = [];
 
-        async function loadApplications() {
+        async function loadAppointments() {
             // Check authentication first
             const hasAccess = await checkPageAccess();
             if (!hasAccess) return;
             
             try {
-                const response = await fetch('list_applications.php');
+                const response = await fetch('list_appointments.php');
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -417,23 +395,23 @@
                 const data = await response.json();
                 
                 if (!data.success) {
-                    throw new Error(data.message || 'Failed to load applications');
+                    throw new Error(data.message || 'Failed to load appointments');
                 }
                 
-                applications = data.applications || [];
-                filteredApplications = applications;
+                appointments = data.appointments || [];
+                filteredAppointments = appointments;
                 updateStats();
-                renderApplications();
+                renderAppointments();
                 
                 // Hide loading, show content
                 document.getElementById('loadingContainer').style.display = 'none';
                 
             } catch (error) {
-                console.error('Error loading applications:', error);
+                console.error('Error loading appointments:', error);
                 const errorContainer = document.getElementById('errorContainer');
                 errorContainer.innerHTML = `
                     <div class="error-message" style="display: block;">
-                        ⚠️ Error loading applications: ${error.message}
+                        ⚠️ Error loading appointments: ${error.message}
                     </div>
                 `;
                 document.getElementById('loadingContainer').style.display = 'none';
@@ -445,37 +423,37 @@
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
             const weekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
 
-            const todayCount = applications.filter(app => {
-                const appDate = new Date(app.submittedAt || app.submissionDate);
-                return appDate >= today;
+            const todayCount = appointments.filter(apt => {
+                const aptDate = new Date(apt.submitted_at);
+                return aptDate >= today;
             }).length;
 
-            const weekCount = applications.filter(app => {
-                const appDate = new Date(app.submittedAt || app.submissionDate);
-                return appDate >= weekAgo;
+            const weekCount = appointments.filter(apt => {
+                const aptDate = new Date(apt.submitted_at);
+                return aptDate >= weekAgo;
             }).length;
 
-            document.getElementById('totalCount').textContent = applications.length;
+            document.getElementById('totalCount').textContent = appointments.length;
             document.getElementById('todayCount').textContent = todayCount;
             document.getElementById('weekCount').textContent = weekCount;
         }
 
-        function renderApplications() {
+        function renderAppointments() {
             const tbody = document.getElementById('tableBody');
-            const table = document.getElementById('applicationsTable');
-            const noApps = document.getElementById('noApplications');
+            const table = document.getElementById('appointmentsTable');
+            const noApts = document.getElementById('noAppointments');
 
-            if (filteredApplications.length === 0) {
+            if (filteredAppointments.length === 0) {
                 table.style.display = 'none';
-                noApps.style.display = 'block';
+                noApts.style.display = 'block';
                 return;
             }
 
             table.style.display = 'table';
-            noApps.style.display = 'none';
+            noApts.style.display = 'none';
 
-            tbody.innerHTML = filteredApplications.map(app => {
-                const date = new Date(app.submittedAt || app.submissionDate);
+            tbody.innerHTML = filteredAppointments.map(apt => {
+                const date = new Date(apt.submitted_at);
                 const formattedDate = date.toLocaleDateString('en-US', { 
                     year: 'numeric', 
                     month: 'short', 
@@ -484,26 +462,35 @@
                     minute: '2-digit'
                 });
 
-                const fullName = `${app.firstName || ''} ${app.lastName || ''}`.trim() || 'N/A';
-                const email = app.email || 'N/A';
-                const phone = app.cellPhone || app.homePhone || 'N/A';
-                const moveIn = app.desiredMoveIn ? new Date(app.desiredMoveIn).toLocaleDateString('en-US', { 
-                    year: 'numeric', 
-                    month: 'short', 
-                    day: 'numeric'
-                }) : 'N/A';
+                const name = apt.name || 'N/A';
+                const email = apt.email || 'N/A';
+                const phone = apt.phone || 'N/A';
+                const unit = apt.unit_text || apt.unit || 'N/A';
+                
+                // Format time slots
+                let timeSlots = '';
+                if (apt.time_slots && apt.time_slots.length > 0) {
+                    const firstSlot = apt.time_slots[0];
+                    timeSlots = `${firstSlot.date} ${firstSlot.time}`;
+                    if (apt.time_slots.length > 1) {
+                        timeSlots += ` (+${apt.time_slots.length - 1} more)`;
+                    }
+                } else {
+                    timeSlots = 'N/A';
+                }
 
                 return `
                     <tr>
                         <td>${formattedDate}</td>
-                        <td><strong>${fullName}</strong></td>
+                        <td><strong>${name}</strong></td>
                         <td>
                             ${email}<br>
                             <small style="color: #666;">${phone}</small>
                         </td>
-                        <td>${moveIn}</td>
+                        <td>${unit}</td>
+                        <td><small>${timeSlots}</small></td>
                         <td>
-                            <a href="view-application.html?file=${encodeURIComponent(app.filename)}" class="view-btn">
+                            <a href="view-appointment.html?id=${encodeURIComponent(apt.id)}" class="view-btn">
                                 👁️ View
                             </a>
                         </td>
@@ -512,36 +499,36 @@
             }).join('');
         }
 
-        function filterApplications() {
+        function filterAppointments() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase();
             
-            filteredApplications = applications.filter(app => {
-                const fullName = `${app.firstName || ''} ${app.lastName || ''}`.toLowerCase();
-                const email = (app.email || '').toLowerCase();
-                const phone = (app.cellPhone || app.homePhone || '').toLowerCase();
+            filteredAppointments = appointments.filter(apt => {
+                const name = (apt.name || '').toLowerCase();
+                const email = (apt.email || '').toLowerCase();
+                const phone = (apt.phone || '').toLowerCase();
                 
-                return fullName.includes(searchTerm) || 
+                return name.includes(searchTerm) || 
                        email.includes(searchTerm) || 
                        phone.includes(searchTerm);
             });
 
-            sortApplications();
-            renderApplications();
+            sortAppointments();
+            renderAppointments();
         }
 
-        function sortApplications() {
+        function sortAppointments() {
             const sortBy = document.getElementById('sortSelect').value;
 
-            filteredApplications.sort((a, b) => {
+            filteredAppointments.sort((a, b) => {
                 switch(sortBy) {
                     case 'date-desc':
-                        return new Date(b.submittedAt || b.submissionDate) - new Date(a.submittedAt || a.submissionDate);
+                        return new Date(b.submitted_at) - new Date(a.submitted_at);
                     case 'date-asc':
-                        return new Date(a.submittedAt || a.submissionDate) - new Date(b.submittedAt || b.submissionDate);
+                        return new Date(a.submitted_at) - new Date(b.submitted_at);
                     case 'name-asc':
-                        return `${a.firstName} ${a.lastName}`.localeCompare(`${b.firstName} ${b.lastName}`);
+                        return (a.name || '').localeCompare(b.name || '');
                     case 'name-desc':
-                        return `${b.firstName} ${b.lastName}`.localeCompare(`${a.firstName} ${a.lastName}`);
+                        return (b.name || '').localeCompare(a.name || '');
                     default:
                         return 0;
                 }
@@ -549,14 +536,14 @@
         }
 
         // Event listeners
-        document.getElementById('searchInput').addEventListener('input', filterApplications);
-        document.getElementById('sortSelect').addEventListener('change', filterApplications);
+        document.getElementById('searchInput').addEventListener('input', filterAppointments);
+        document.getElementById('sortSelect').addEventListener('change', filterAppointments);
 
-        // Load applications on page load
-        loadApplications();
+        // Load appointments on page load
+        loadAppointments();
 
         // Auto-refresh every 30 seconds
-        setInterval(loadApplications, 30000);
+        setInterval(loadAppointments, 30000);
     </script>
 </body>
 </html>

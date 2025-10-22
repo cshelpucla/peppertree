@@ -1,0 +1,26 @@
+{
+  "id": "demo456",
+  "submitted_at": "2025-10-21 14:30:00",
+  "contact": {
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "phone": "(555) 987-6543"
+  },
+  "tour_details": {
+    "unit": "730a",
+    "unit_text": "Unit 730A - 2BR Standard"
+  },
+  "time_slots": [
+    {
+      "priority": 1,
+      "date": "2025-10-24",
+      "time_hour": "3",
+      "time_period": "PM",
+      "time": "3:00 PM",
+      "formatted": "Thursday, October 24, 2025 at 3:00 PM"
+    }
+  ],
+  "notes": "Interested in pet-friendly units. Has a small dog.",
+  "status": "pending",
+  "source": "website_schedule"
+}
