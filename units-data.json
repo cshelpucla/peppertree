@@ -80,6 +80,9 @@
       "photos": [
         "730_750_Outside.jpg",
         "730_750_Outside2.jpg",
+        "730_Outside.jpg",
+        "730_OutsideBldg.jpg",
+        "730_Outside_Corner.jpg",
         "unit-living.jpg",
         "unit-kitchen.jpg",
         "unit-bedroom.jpg"
@@ -87,6 +90,9 @@
       "photoDescriptions": [
         "Building Exterior",
         "Exterior View 2",
+        "Building Front",
+        "Building Exterior",
+        "Corner View",
         "Living Room",
         "Kitchen",
         "Bedroom"

@@ -6,6 +6,8 @@
     <title>PepperTree Townhomes - Your Perfect Home Awaits</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="admin-auth.css">
+    <link rel="stylesheet" href="carousel.css">
+    <link rel="stylesheet" href="video-modal.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
@@ -38,8 +40,13 @@
                 <!-- Unit 720C - 3BR -->
                 <div class="unit-card featured" data-unit-id="720c">
                     <div class="unit-badge">Featured</div>
-                    <div class="unit-image">
-                        <img src="images/720-Outside.jpg" alt="Unit 720C">
+                    <div class="unit-image carousel-container">
+                        <div class="carousel-track" data-carousel="720c">
+                            <!-- Images will be loaded dynamically -->
+                        </div>
+                        <button class="carousel-btn prev" data-carousel-prev="720c">‹</button>
+                        <button class="carousel-btn next" data-carousel-next="720c">›</button>
+                        <div class="carousel-dots" data-carousel-dots="720c"></div>
                         <div class="unit-price-overlay">
                             <span class="price" data-price>$1,245</span>
                             <span class="period">/mo</span>
@@ -56,15 +63,24 @@
                         <p class="unit-description-short" data-description>Spacious 3BR with modern finishes, 2 full baths, and private patio. Perfect for families!</p>
                         <div class="unit-card-actions">
                             <a href="unit-template.html?unit=720c" class="btn btn-primary btn-block">View Details</a>
-                            <a href="contact.html" class="btn btn-outline btn-block">Schedule Tour</a>
+                            <div class="video-tour-buttons">
+                                <a href="#" class="btn btn-outline btn-video" onclick="openVideoModal('videos/730C_Upstairs.mp4', 'Upstairs'); return false;">🎥 Upstairs</a>
+                                <a href="#" class="btn btn-outline btn-video" onclick="openVideoModal('videos/730C_DownStairs.mp4', 'Downstairs'); return false;">🎥 Downstairs</a>
+                            </div>
+                            <a href="contact.html" class="btn btn-outline btn-block">Schedule In-Person Tour</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Unit 161D - 3BR -->
                 <div class="unit-card" data-unit-id="161d">
-                    <div class="unit-image">
-                        <img src="images/730_750_Outside.jpg" alt="Unit 161D">
+                    <div class="unit-image carousel-container">
+                        <div class="carousel-track" data-carousel="161d">
+                            <!-- Images will be loaded dynamically -->
+                        </div>
+                        <button class="carousel-btn prev" data-carousel-prev="161d">‹</button>
+                        <button class="carousel-btn next" data-carousel-next="161d">›</button>
+                        <div class="carousel-dots" data-carousel-dots="161d"></div>
                         <div class="unit-price-overlay">
                             <span class="price" data-price>$1,145</span>
                             <span class="period">/mo</span>
@@ -81,15 +97,24 @@
                         <p class="unit-description-short" data-description>Spacious 3BR townhome with comfortable living spaces and great amenities.</p>
                         <div class="unit-card-actions">
                             <a href="unit-template.html?unit=161d" class="btn btn-primary btn-block">View Details</a>
-                            <a href="contact.html" class="btn btn-outline btn-block">Schedule Tour</a>
+                            <div class="video-tour-buttons">
+                                <a href="#" class="btn btn-outline btn-video" onclick="openVideoModal('videos/730C_Upstairs.mp4', 'Upstairs'); return false;">🎥 Upstairs</a>
+                                <a href="#" class="btn btn-outline btn-video" onclick="openVideoModal('videos/730C_DownStairs.mp4', 'Downstairs'); return false;">🎥 Downstairs</a>
+                            </div>
+                            <a href="contact.html" class="btn btn-outline btn-block">Schedule In-Person Tour</a>
                         </div>
                     </div>
                 </div>
 
                 <!-- Unit 151A - 3BR -->
                 <div class="unit-card" data-unit-id="151a">
-                    <div class="unit-image">
-                        <img src="images/131_Outside_Bldg.jpg" alt="Unit 151A">
+                    <div class="unit-image carousel-container">
+                        <div class="carousel-track" data-carousel="151a">
+                            <!-- Images will be loaded dynamically -->
+                        </div>
+                        <button class="carousel-btn prev" data-carousel-prev="151a">‹</button>
+                        <button class="carousel-btn next" data-carousel-next="151a">›</button>
+                        <div class="carousel-dots" data-carousel-dots="151a"></div>
                         <div class="unit-price-overlay">
                             <span class="price" data-price>$1,245</span>
                             <span class="period">/mo</span>
@@ -106,7 +131,11 @@
                         <p class="unit-description-short" data-description>Charming 3BR townhome in prime location. Perfect family home with all amenities.</p>
                         <div class="unit-card-actions">
                             <a href="unit-template.html?unit=151a" class="btn btn-primary btn-block">View Details</a>
-                            <a href="contact.html" class="btn btn-outline btn-block">Schedule Tour</a>
+                            <div class="video-tour-buttons">
+                                <a href="#" class="btn btn-outline btn-video" onclick="openVideoModal('videos/730C_Upstairs.mp4', 'Upstairs'); return false;">🎥 Upstairs</a>
+                                <a href="#" class="btn btn-outline btn-video" onclick="openVideoModal('videos/730C_DownStairs.mp4', 'Downstairs'); return false;">🎥 Downstairs</a>
+                            </div>
+                            <a href="contact.html" class="btn btn-outline btn-block">Schedule In-Person Tour</a>
                         </div>
                     </div>
                 </div>            </div>
@@ -245,6 +274,17 @@
             </div>
         </div>
     </footer>
+
+    <!-- Image Lightbox Modal -->
+    <div id="imageLightbox" class="lightbox-modal">
+        <button class="lightbox-close">&times;</button>
+        <button class="lightbox-nav lightbox-prev">‹</button>
+        <button class="lightbox-nav lightbox-next">›</button>
+        <div class="lightbox-content">
+            <img id="lightboxImage" src="" alt="">
+            <div class="lightbox-caption" id="lightboxCaption"></div>
+        </div>
+    </div>
 
     <!-- Admin Menu -->
     <div id="adminMenu">
@@ -433,8 +473,22 @@
         document.addEventListener('DOMContentLoaded', loadHomeContactInfo);
     </script>
 
+    <!-- Video Modal -->
+    <div id="videoModal" class="video-modal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" onclick="closeVideoModal()">&times;</button>
+            <h3 id="videoModalTitle" class="video-modal-title"></h3>
+            <video id="modalVideo" controls>
+                <source src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
     <script src="script.js"></script>
+    <script src="carousel.js"></script>
     <script src="unit-data-loader.js"></script>
+    <script src="video-modal.js"></script>
     <script src="admin-auth.js"></script>
 </body>
 </html>

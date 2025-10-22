@@ -2167,6 +2167,18 @@ h1, h2, h3, h4, h5, h6 {
     text-align: center;
 }
 
+.video-tour-buttons {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.btn-video {
+    flex: 1;
+    font-size: 0.9rem;
+    padding: 10px 8px;
+}
+
 .btn-block {
     width: 100%;
     display: block;
