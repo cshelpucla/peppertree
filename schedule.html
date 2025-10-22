@@ -305,22 +305,44 @@
                 });
             }
             
-            // Log the appointment (in production, this would send to a server)
-            console.log('Tour Appointment:', {
-                ...data,
-                timeSlots: timeSlots
+            // Disable submit button to prevent double submission
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            // Submit form data to PHP handler
+            fetch('schedule-handler.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    // Show success message
+                    this.style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    // Reset form after 5 seconds and hide success message
+                    setTimeout(() => {
+                        this.reset();
+                        this.style.display = 'block';
+                        document.getElementById('successMessage').style.display = 'none';
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalText;
+                    }, 5000);
+                } else {
+                    alert(result.message || 'There was an error submitting your request. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = originalText;
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your request. Please try again or call us at (559) 935-2200.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = originalText;
             });
-            
-            // Show success message
-            this.style.display = 'none';
-            document.getElementById('successMessage').style.display = 'block';
-            
-            // Reset form after 5 seconds and hide success message
-            setTimeout(() => {
-                this.reset();
-                this.style.display = 'block';
-                document.getElementById('successMessage').style.display = 'none';
-            }, 5000);
         });
 
         // Input focus styling
